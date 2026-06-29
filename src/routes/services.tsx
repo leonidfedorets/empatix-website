@@ -10,7 +10,7 @@ import bgServices from "@/assets/bg-services.jpg";
 import ctaServicesBg from "@/assets/cta-services-bg.jpg";
 
 
-const SITE_URL = "https://empathic-site-studio.lovable.app";
+const SITE_URL = "https://empatix-website.vercel.app";
 
 export const Route = createFileRoute("/services")({
   head: () => {

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "https://empathic-site-studio.lovable.app";
+const BASE_URL = "https://empatix-website.vercel.app";
 
 interface SitemapEntry {
   path: string;

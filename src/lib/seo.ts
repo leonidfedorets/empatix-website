@@ -1,9 +1,6 @@
-import ogDefaultAsset from "@/assets/og-default.jpg.asset.json";
+const SITE_ORIGIN = "https://empatix-website.vercel.app";
 
-const SITE_ORIGIN = "https://empathic-site-studio.lovable.app";
-
-export const OG_DEFAULT_URL = SITE_ORIGIN + ogDefaultAsset.url;
-
+export const OG_DEFAULT_URL = `${SITE_ORIGIN}/og-default.jpg`;
 
 function absoluteUrl(path: string) {
   if (!path) return SITE_ORIGIN + "/";
@@ -58,7 +55,7 @@ export function seoMeta(opts: {
     (opts.tags ?? []).forEach((t) => meta.push({ property: "article:tag", content: t }));
   }
   if (opts.noindex) meta.push({ name: "robots", content: "noindex, nofollow" });
-  const links = opts.noindex ? [] : [{ rel: "canonical", href: opts.path }];
+  const links = opts.noindex ? [] : [{ rel: "canonical", href: absoluteUrl(opts.path) }];
   const scripts: Array<{ type: string; children: string }> = [];
   if (opts.breadcrumbs && opts.breadcrumbs.length > 0) {
     scripts.push({

@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { CmsOverlay } from "@/components/admin/CmsOverlay";
@@ -15,8 +15,6 @@ import { useCmsRealtime } from "@/lib/cms/useCmsContent";
 import { OG_DEFAULT_URL } from "@/lib/seo";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -42,10 +40,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -114,13 +108,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@graph": [
             {
               "@type": "Organization",
-              "@id": "https://empathic-site-studio.lovable.app/#organization",
+              "@id": "https://empatix-website.vercel.app/#organization",
               name: "Empatix",
               legalName: "Empatix Tech",
-              url: "https://empathic-site-studio.lovable.app/",
+              url: "https://empatix-website.vercel.app/",
               logo: {
                 "@type": "ImageObject",
-                url: "https://empathic-site-studio.lovable.app/favicon-512.png",
+                url: "https://empatix-website.vercel.app/favicon-512.png",
                 width: 512,
                 height: 512,
               },
@@ -143,16 +137,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                   contactType: "sales",
                   email: "hello@empatixtech.com",
                   availableLanguage: ["English"],
-                  url: "https://empathic-site-studio.lovable.app/contact",
+                  url: "https://empatix-website.vercel.app/contact",
                 },
               ],
             },
             {
               "@type": "WebSite",
-              "@id": "https://empathic-site-studio.lovable.app/#website",
-              url: "https://empathic-site-studio.lovable.app/",
+              "@id": "https://empatix-website.vercel.app/#website",
+              url: "https://empatix-website.vercel.app/",
               name: "Empatix",
-              publisher: { "@id": "https://empathic-site-studio.lovable.app/#organization" },
+              publisher: { "@id": "https://empatix-website.vercel.app/#organization" },
               inLanguage: "en",
             },
           ],
