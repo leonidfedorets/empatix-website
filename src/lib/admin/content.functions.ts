@@ -19,15 +19,18 @@ async function logAudit(
   ctx: any,
   entry: { entity_type: string; entity_id?: string | null; action: string; diff?: unknown },
 ) {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  await supabaseAdmin.from("audit_log").insert({
-    actor_id: ctx.userId,
-    actor_email: ctx.claims?.email ?? null,
-    entity_type: entry.entity_type,
-    entity_id: entry.entity_id ?? null,
-    action: entry.action,
-    diff: (entry.diff as any) ?? null,
-  });
+  try {
+    await ctx.supabase.from("audit_log").insert({
+      actor_id: ctx.userId,
+      actor_email: ctx.claims?.email ?? null,
+      entity_type: entry.entity_type,
+      entity_id: entry.entity_id ?? null,
+      action: entry.action,
+      diff: (entry.diff as any) ?? null,
+    });
+  } catch {
+    // audit logging is non-critical — never block the main operation
+  }
 }
 
 // ---------- Sections ----------
