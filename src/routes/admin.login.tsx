@@ -41,7 +41,7 @@ function AdminLogin() {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: `${window.location.origin}/admin` },
+        options: { emailRedirectTo: "https://empatix-website.vercel.app/admin" },
       });
       if (error) throw error;
       setMagicSent(true);
