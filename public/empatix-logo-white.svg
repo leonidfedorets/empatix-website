@@ -1,12 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 36" fill="none">
-  <!-- Outer circle -->
-  <circle cx="18" cy="18" r="15.5" stroke="white" stroke-width="1.5"/>
-  <!-- Large organic leaf sweep -->
-  <path d="M12.5 7.5 C18.5 6.5 26 11 27 18.5 C28 26 22.5 31.5 15.5 30.5 C9 29.5 5.5 23 7 16 C8 10.5 10.5 8 12.5 7.5Z"
-        stroke="white" stroke-width="1.4" fill="none"/>
-  <!-- Inner teardrop / iris -->
-  <path d="M18 12.5 C21 14 22 17.5 20.5 20.5 C19 23.5 15.5 24 13.5 22 C11.5 20 12 16.5 14 14.5 C15.5 13 17 12 18 12.5Z"
-        stroke="white" stroke-width="1.2" fill="none"/>
+  <!-- Outer circle ring -->
+  <circle cx="18" cy="18" r="15.5" stroke="white" stroke-width="1.6"/>
+  <!-- Leaf: elongated teardrop, tilted, off-centre upper-right -->
+  <path d="M21 9
+           C27 12 27 20 24 26
+           C21 31 13 31 10 26
+           C7 21 10 13 15 10
+           C17 9 20 8 21 9Z"
+        stroke="white" stroke-width="1.5" fill="none"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Dot at tip -->
+  <circle cx="21.5" cy="9.5" r="2.2" fill="white"/>
   <!-- Wordmark -->
   <text x="42" y="24" font-family="Sora,-apple-system,BlinkMacSystemFont,sans-serif" font-size="17" font-weight="600" letter-spacing="-0.4" fill="white">Empatix</text>
 </svg>
