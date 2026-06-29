@@ -1,0 +1,273 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Empatix Design System
+ * Brand colors per BrandBook (light blue #6BACF7 intentionally excluded — too soft):
+ *  - #191919 (ink), #FFFFFF (paper), #283BD4 (primary blue),
+ *  - #1B2C94 (deep blue), #000000 (true black), #CCCCCC (gray)
+ * Fonts:
+ *  - Display: "Sora" (geometric sans, closest free substitute for Qualy Neue)
+ *  - Body: "Poppins"
+ */
+
+@theme inline {
+  --font-display: "Sora", "Poppins", system-ui, sans-serif;
+  --font-sans: "Poppins", system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
+  --radius-3xl: calc(var(--radius) + 22px);
+  --radius-full: 9999px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-sky: var(--brand-accent);
+  --color-brand-accent: var(--brand-accent);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Brand tokens (raw) */
+  --ink: oklch(0.18 0 0);              /* #191919 */
+  --paper: oklch(1 0 0);
+  --brand: #283BD4;                     /* primary brand blue — buttons, fills */
+  --brand-deep: #1B2C94;                /* deep brand blue — depth, shadows */
+  --brand-accent: #3B82F6;              /* clean accessible blue accent on dark */
+  --brand-sky: var(--brand-accent);    /* legacy alias */
+  --gray: oklch(0.84 0 0);             /* #CCCCCC */
+  --surface: oklch(0.13 0.012 250);    /* neutral dark, slight cool tint */
+  --surface-2: oklch(0.19 0.022 250);
+
+  /* Site is dark-first */
+  --background: var(--surface);
+  --foreground: oklch(0.98 0.003 250);
+  --card: var(--surface-2);
+  --card-foreground: oklch(0.98 0.003 250);
+  --popover: var(--surface-2);
+  --popover-foreground: oklch(0.98 0.003 250);
+  --primary: var(--brand);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.24 0.03 250);
+  --secondary-foreground: oklch(0.98 0.003 250);
+  --muted: oklch(0.22 0.015 250);
+  --muted-foreground: oklch(0.72 0.015 250);
+  --accent: var(--brand);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: var(--brand);
+
+  /* Composed tokens — pure blues + black */
+  --gradient-brand: linear-gradient(135deg, #2547E0 0%, #1B3A99 55%, #050912 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(37,71,224,0.22), rgba(27,58,153,0.18) 60%, rgba(0,0,0,0) 100%);
+  --gradient-text: linear-gradient(90deg, #FFFFFF 0%, #CCCCCC 100%);
+  --shadow-brand: 0 30px 80px -30px rgba(37, 71, 224, 0.6), 0 10px 30px -15px rgba(27, 58, 153, 0.4);
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -20px rgba(0,0,0,0.7);
+  --ring-glow: 0 0 0 1px rgba(37,71,224,0.45), 0 0 40px rgba(27,58,153,0.45);
+}
+
+/* Light theme override (admin opt-in via .light on <html>) */
+.light {
+  --background: oklch(0.99 0.003 250);
+  --foreground: oklch(0.18 0.01 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.01 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.01 250);
+  --primary: var(--brand);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.005 250);
+  --secondary-foreground: oklch(0.2 0.01 250);
+  --muted: oklch(0.95 0.005 250);
+  --muted-foreground: oklch(0.45 0.01 250);
+  --accent: oklch(0.94 0.01 250);
+  --accent-foreground: oklch(0.18 0.01 250);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.2 0.01 250 / 12%);
+  --input: oklch(0.2 0.01 250 / 16%);
+  --ring: var(--brand);
+}
+.light body {
+  background-image: none;
+}
+
+
+
+@layer base {
+  * { border-color: var(--color-border); }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(37,71,224,0.22), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(40,59,212,0.10), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, .display { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+  /*
+   * Global heading wrap rules — modern browsers (Chrome 114+, Safari 17.5+, FF 121+)
+   * balance the lines automatically; orphans hint prevents single-word last lines
+   * on browsers that support it. Falls back to normal wrap elsewhere.
+   */
+  h1, h2, h3, .display {
+    text-wrap: balance;
+  }
+  p, li {
+    text-wrap: pretty; /* prevents single-word orphans in body copy */
+  }
+
+  ::selection { background: rgba(40,59,212,0.45); color: white; }
+}
+
+/* Utility classes layered for site components */
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-gradient-brand { background: var(--gradient-brand); }
+  .bg-gradient-brand-soft { background: var(--gradient-brand-soft); }
+  .shadow-brand { box-shadow: var(--shadow-brand); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .ring-glow { box-shadow: var(--ring-glow); }
+
+  .glass {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hairline { border: 1px solid rgba(255,255,255,0.08); }
+
+  /* Responsive container: max 1440px, fluid horizontal padding */
+  .container-x {
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  /* Fluid typography (clamp) */
+  .fluid-h1 { font-size: clamp(2.25rem, 6vw, 6rem); line-height: 1.05; letter-spacing: -0.02em; }
+  .fluid-h2 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -0.015em; }
+  .fluid-h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.2; }
+  .fluid-body { font-size: clamp(1rem, 1.2vw, 1.25rem); line-height: 1.6; }
+  .fluid-lead { font-size: clamp(1.0625rem, 1.4vw, 1.375rem); line-height: 1.55; }
+
+  /* Fluid spacing */
+  .section-y { padding-block: clamp(3rem, 8vw, 7.5rem); }
+  .section-y-sm { padding-block: clamp(2.5rem, 6vw, 5rem); }
+  .content-gap { gap: clamp(1.5rem, 4vw, 4rem); }
+
+  /* Readable text column — never spills into decorative areas */
+  .text-readable { max-width: min(720px, 100%); }
+  .text-readable-wide { max-width: min(820px, 100%); }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--brand-sky);
+  }
+
+  /* Brand pattern background - tiled circular marks */
+  .bg-pattern {
+    background-color: #000;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(40,59,212,0.22) 0 22%, transparent 23%),
+      linear-gradient(135deg, #000 0%, #1B3A99 55%, #2547E0 100%);
+    background-size: 60px 60px, 100% 100%;
+  }
+}
+
+/* Electric current overlay — current flowing along wires effect for hero bg */
+@keyframes electric-flow {
+  0%   { background-position: -200% 50%, 50% -200%, 200% 50%; }
+  100% { background-position:  200% 50%, 50%  200%, -200% 50%; }
+}
+
+@keyframes electric-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 0.9; }
+}
+
+.electric-overlay {
+  background-image:
+    linear-gradient(90deg, transparent 0%, transparent 45%, rgba(125,200,255,0.85) 50%, transparent 55%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, transparent 45%, rgba(59,130,246,0.7) 50%, transparent 55%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, transparent 45%, rgba(80,160,255,0.55) 50%, transparent 55%, transparent 100%);
+  background-size: 200% 2px, 2px 200%, 200% 1px;
+  background-repeat: no-repeat;
+  background-position: -200% 30%, 70% -200%, 200% 75%;
+  filter: blur(0.5px) drop-shadow(0 0 6px rgba(99,179,255,0.8));
+  animation: electric-flow 2.6s linear infinite, electric-pulse 1.4s ease-in-out infinite;
+}
+
+/* A11y — visible keyboard focus ring on interactive elements */
+@layer base {
+  :where(a, button, [role="button"], summary, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid hsl(var(--ring, 217 91% 60%));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .electric-overlay { animation: none !important; }
+}
+
+

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://empathic-site-studio.lovable.app/sitemap.xml

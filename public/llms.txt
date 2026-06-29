@@ -1,0 +1,25 @@
+# Empatix
+
+> Empatix builds AI-powered digital products, business automations and internal tools, with fractional CTO guidance from senior engineers.
+
+Empatix partners with operations and product teams to turn manual work into software. We design, build and ship AI products, business automations and internal tools end-to-end, with a CTO in the room.
+
+## Pages
+
+- [Home](/): What Empatix does and who it's for.
+- [Services](/services): AI products, automations, internal tools and fractional CTO services.
+- [AI Solutions](/ai-solutions): AI capabilities and example applications.
+- [Cases](/cases): Selected client work and outcomes.
+- [Industries](/industries): Sectors Empatix works with.
+- [How we work](/how-we-work): Engagement model, discovery and delivery process.
+- [Team extension](/team-extension): Embedding senior engineers into your team.
+- [About](/about): Company background and team.
+- [Insights](/insights): Articles on AI, automation and product engineering.
+- [Contact](/contact): Start a project or book a discovery call.
+
+## Optional
+
+- [Privacy policy](/privacy)
+- [Terms](/terms)
+- [Cookies](/cookies)
+- [GDPR](/gdpr)

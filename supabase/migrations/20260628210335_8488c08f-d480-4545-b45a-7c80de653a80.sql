@@ -1,0 +1,4 @@
+UPDATE content_items SET data = data || jsonb_build_object('forWhom','Founders and operators turning an idea or internal pain into a real product.','timeline','8–16 weeks') WHERE id='fb63f655-01fc-498e-b343-dd3a7e2aa64d';
+UPDATE content_items SET data = data || jsonb_build_object('forWhom','Teams who want AI that actually moves a metric, not a demo.','timeline','4–10 weeks') WHERE id='c35577a8-5a2e-435e-a51d-ed78678a8ecf';
+UPDATE content_items SET data = data || jsonb_build_object('forWhom','Sales, ops and finance teams losing hours on copy-paste between systems.','timeline','2–6 weeks') WHERE id='581f6f66-ab74-4892-9f3d-05d73e270154';
+UPDATE content_items SET data = data || jsonb_build_object('forWhom','Non-technical founders and PE-backed operators who need a sober tech voice.','timeline','Ongoing retainer') WHERE id='ada00898-841d-478f-83a8-6429156c1117';
