@@ -1,16 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" fill="none">
-  <!-- Outer ring -->
-  <circle cx="100" cy="88" r="70" stroke="white" stroke-width="7" fill="none"/>
-  <!-- Leaf: elongated teardrop, off-centre, tilted -->
-  <path d="M115 38
-           C145 52 148 88 135 113
-           C122 138 83 140 65 115
-           C47 90 57 53 83 40
-           C92 36 107 35 115 38Z"
-        stroke="white" stroke-width="6" fill="none"
-        stroke-linejoin="round" stroke-linecap="round"/>
-  <!-- Small filled dot at the narrow tip -->
-  <circle cx="116" cy="39" r="10" fill="white"/>
+  <!-- Outer circle, open on the right -->
+  <path d="M151 144.4 A71.5 71.5 0 1 1 169.5 79"
+        stroke="white" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- Small teardrop/comma hanging from the top break -->
+  <path d="M148 84.5 C163 91.5 165.5 109.5 153.5 121 C144 130 127.5 128.5 124 113.5 C120.5 98 132.5 86.5 148 84.5Z"
+        stroke="white" stroke-width="6" fill="none" stroke-linejoin="round"/>
+  <!-- Horizontal eye / lens shape -->
+  <path d="M64 113 Q102 76 146.5 94 Q102 127 64 113Z"
+        stroke="white" stroke-width="6" fill="none" stroke-linejoin="round"/>
   <!-- Wordmark -->
   <text x="100" y="208" font-family="Sora,-apple-system,BlinkMacSystemFont,sans-serif"
         font-size="52" font-weight="700" letter-spacing="-1.5"
