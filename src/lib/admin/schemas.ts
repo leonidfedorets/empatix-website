@@ -38,25 +38,12 @@ export type CollectionDef = {
 // ---- Singleton sections ----
 export const SECTIONS: SectionDef[] = [
   {
-    key: "branding",
-    label: "Branding / Logo",
-    description: "Upload custom logo files. Leave blank to use the default built-in SVGs.",
-    fields: [
-      { key: "markUrl", label: "Icon mark (favicon / small logo)", type: "image", help: "SVG or PNG, displayed at 36×36 px. Used in the header mark and favicon area." },
-      { key: "logoWhiteUrl", label: "Full logo — white (header)", type: "image", help: "SVG or PNG on transparent background, displayed at 36 px tall. Used in the top navigation bar." },
-      { key: "logoDarkUrl", label: "Full logo — hero", type: "image", help: "SVG or PNG used as the large decorative hero graphic above the fold." },
-    ],
-    defaults: { markUrl: "", logoWhiteUrl: "", logoDarkUrl: "" },
-  },
-  {
     key: "hero",
     label: "Hero",
     description: "Main headline shown on the homepage.",
     fields: [
       { key: "headline", label: "Headline", type: "textarea" },
       { key: "subheadline", label: "Subheadline", type: "textarea" },
-      { key: "ctaPrimaryLabel", label: "Primary CTA label", type: "text" },
-      { key: "ctaPrimaryHref", label: "Primary CTA link", type: "url" },
       { key: "ctaSecondaryLabel", label: "Secondary CTA label", type: "text" },
       { key: "ctaSecondaryHref", label: "Secondary CTA link", type: "url" },
       { key: "ctaTertiaryLabel", label: "Tertiary link label", type: "text" },
@@ -70,8 +57,6 @@ export const SECTIONS: SectionDef[] = [
       headline: "Ship the AI products, automations and internal tools that quietly run your business",
       subheadline:
         "We pair senior engineers with a CTO in the room to design, ship and run software that cuts manual ops, replaces brittle spreadsheets and turns AI ideas into things your team actually uses — in weeks, not quarters.",
-      ctaPrimaryLabel: "Get a quick estimate",
-      ctaPrimaryHref: "https://quotes.empatixtech.com/",
       ctaSecondaryLabel: "Talk to us",
       ctaSecondaryHref: "/contact",
       ctaTertiaryLabel: "See recent work",
@@ -475,25 +460,19 @@ function pageHeroAndCtaSections(): SectionDef[] {
     }),
     {
       key: "services_assurance",
-      label: "Services — What you get / What you don't",
-      description: "Two-column assurance block shown between the comparison matrix and the bottom CTA. Reduces buyer anxiety before they request an estimate.",
+      label: "Services — What you get",
+      description: "Positive benefits integrated below the service comparison matrix. Keep each benefit consistent with the engagement types above.",
       fields: [
         { key: "eyebrow", label: "Eyebrow", type: "text" },
-        { key: "title", label: "Title", type: "text" },
         { key: "subtitle", label: "Subtitle", type: "textarea" },
-        { key: "getTitle", label: "Left column title", type: "text" },
+        { key: "getTitle", label: "Title", type: "text" },
         { key: "getList", label: "What you get (one item per line)", type: "textarea" },
-        { key: "avoidTitle", label: "Right column title", type: "text" },
-        { key: "avoidList", label: "What you don't get (one item per line)", type: "textarea" },
       ],
       defaults: {
         eyebrow: "Before you ask for an estimate",
-        title: "What you get — and what you don't",
         subtitle: "Straight talk so you know what you're buying before the first call.",
         getTitle: "What you get",
         getList: "A senior team — no juniors hidden on the bill\nA CTO in the room on every engagement\nWeekly demos and a shared backlog you can read\nFixed-scope MVPs with clear acceptance criteria\nClean handover: code, docs, infra, ownership",
-        avoidTitle: "What you don't get",
-        avoidList: "No staff-augmentation body-shop\nNo open-ended retainers without a scope\nNo lock-in: you own the code and the infra\nNo PowerPoint-only deliverables\nNo agency layers between you and the engineer",
       },
     },
 
@@ -599,10 +578,8 @@ function pageHeroAndCtaSections(): SectionDef[] {
         titleAccent: "build something useful",
         description:
           "Tell us about your product, process or AI idea. We'll reply within one business day and set up a free 30-minute call",
-        ctaPrimaryLabel: "Get a quick estimate",
-        ctaPrimaryHref: "https://quotes.empatixtech.com/",
       },
-      { withCtas: true },
+      { withCtas: false },
     ),
     {
       key: "contact_form",
@@ -660,7 +637,7 @@ function pageHeroAndCtaSections(): SectionDef[] {
         addressNote: "Empatix HQ — Riga, Latvia",
         linkedinUrl: "https://www.linkedin.com/company/empatixdev/",
         linkedinNote: "Follow us for case studies and product notes",
-        telegramUrl: "https://t.me/+nRHlPuQkjbY3ODMy",
+        telegramUrl: "https://t.me/empatixtech",
         telegramNote: "Quickest way to start a conversation",
         whatsappUrl: "https://wa.me/37124965140",
         whatsappNote: "Send a message — we usually reply same day",
@@ -762,11 +739,10 @@ export const COLLECTIONS: CollectionDef[] = [
       { key: "image3", label: "Extra image #3 (optional)", type: "image" },
       { key: "details", label: "Detailed description (modal)", type: "textarea" },
       { key: "outcomes", label: "Outcomes / results (one per line)", type: "textarea" },
-      { key: "demo", label: "Live demo URL (optional)", type: "url" },
       { key: "askLabel", label: "Ask button — label", type: "text" },
       { key: "askHref", label: "Ask button — link", type: "url" },
     ],
-    defaults: { name: "New case", kind: "", client: "", solution: "", chips: "", image: "", image2: "", image3: "", details: "", outcomes: "", demo: "", askLabel: "Ask about it", askHref: "/contact" },
+    defaults: { name: "New case", kind: "", client: "", solution: "", chips: "", image: "", image2: "", image3: "", details: "", outcomes: "", askLabel: "Ask about it", askHref: "/contact" },
   },
   {
     key: "portfolio",

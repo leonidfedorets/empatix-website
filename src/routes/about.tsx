@@ -45,7 +45,7 @@ const DEFAULT_VALUES = [
 ];
 
 const DEFAULT_TEAM = [
-  { id: "d-iryna",   name: "Iryna Rymar",      role: "Head of Information Technology", photo: "https://empatixtech.com/wp-content/uploads/2025/05/iryna_rymar.jpg",         linkedin: "https://www.linkedin.com/in/iryna-martyrosian/" },
+  { id: "d-iryna",   name: "Iryna Rymar",      role: "Head of Partnerships",           photo: "https://empatixtech.com/wp-content/uploads/2025/05/iryna_rymar.jpg",         linkedin: "https://www.linkedin.com/in/iryna-martyrosian/" },
   { id: "d-denys",   name: "Denys Kiprushev",  role: "CTO",                            photo: "https://empatixtech.com/wp-content/uploads/2025/04/denis-kiprushev_.jpg",   linkedin: "https://www.linkedin.com/in/denis-kiprushev" },
   { id: "d-leonid",  name: "Leonid Fedores",   role: "CIO",                            photo: "https://empatixtech.com/wp-content/uploads/2025/04/leonid-fedores.jpg",     linkedin: "https://www.linkedin.com/in/leonid-fedorets-6b778431" },
   { id: "d-dmitriy", name: "Dmitriy Hrytsyna", role: "Head of Sales",                  photo: "https://empatixtech.com/wp-content/uploads/2025/04/dmitriy-hrytsyna.jpg",  linkedin: "https://linkedin.com/in/dmitriyhrytsyna" },

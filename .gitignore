@@ -1,7 +1,8 @@
 # Environment secrets
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+.vercel
 
 # Logs
 logs
@@ -40,4 +41,3 @@ dist-ssr
 test-results/
 playwright-report/
 playwright/.cache/
-.vercel

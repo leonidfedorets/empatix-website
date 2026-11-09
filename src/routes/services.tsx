@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { seoMeta } from "@/lib/seo";
-import { ArrowRight, Layers, Bot, Workflow, Compass, CheckCircle2, Quote, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, Layers, Bot, Workflow, Compass, CheckCircle2, Quote, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CmsMark } from "@/components/CmsMark";
 import { EditableHero, EditableCta } from "@/components/cms/EditablePageBlocks";
@@ -10,7 +10,7 @@ import bgServices from "@/assets/bg-services.jpg";
 import ctaServicesBg from "@/assets/cta-services-bg.jpg";
 
 
-const SITE_URL = "https://empatix-website.vercel.app";
+const SITE_URL = "https://empathic-site-studio.lovable.app";
 
 export const Route = createFileRoute("/services")({
   head: () => {
@@ -166,8 +166,8 @@ function ServicesPage() {
     <SiteLayout>
       <EditableHero sectionKey="services_page_hero" label="Services — Hero" bgImage={bgServices} />
 
-      <CmsMark kind="collection" target="services_offerings" label="Services — Offerings" as="div">
-        <section className="container-x pb-24">
+      <section className="container-x pb-24">
+        <CmsMark kind="collection" target="services_offerings" label="Services — Offerings" as="div">
           {/* Section header */}
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <p className="text-xs uppercase tracking-[0.22em] text-brand-sky">Service matrix</p>
@@ -453,15 +453,13 @@ function ServicesPage() {
               </div>
             </div>
 
-            {/* Footnote */}
-            <p className="mt-4 px-2 text-[11px] text-muted-foreground/60">
-              * Timelines are typical estimates for standard scopes — final scope is agreed during discovery.
-            </p>
           </div>
-        </section>
-      </CmsMark>
-
-      <ServicesAssurance />
+          <p className="mt-4 px-2 text-[11px] text-muted-foreground">
+            * Timelines are typical estimates for standard scopes — final scope is agreed during discovery.
+          </p>
+        </CmsMark>
+        <ServicesAssurance />
+      </section>
 
       <EditableCta sectionKey="services_page_cta" label="Services — Bottom CTA" bgImage={ctaServicesBg} />
 
@@ -501,73 +499,39 @@ function ServiceCta({
 
 type AssuranceContent = {
   eyebrow?: string;
-  title?: string;
   subtitle?: string;
   getTitle?: string;
   getList?: string;
-  avoidTitle?: string;
-  avoidList?: string;
 };
 
 function ServicesAssurance() {
   const c = useCmsSection<AssuranceContent>("services_assurance");
   const gets = splitLines(c.getList);
-  const avoids = splitLines(c.avoidList);
-  if (!gets.length && !avoids.length && !c.title) return null;
+  if (!gets.length) return null;
   return (
-    <CmsMark kind="section" target="services_assurance" label="Services — Assurance" as="div">
-      <section className="container-x pb-24">
-        <div className="mx-auto mb-10 max-w-3xl text-center">
+    <CmsMark kind="section" target="services_assurance" label="Services — What you get" as="div">
+      <section aria-labelledby="services-benefits-title" className="mt-10 border-t border-border pt-10 md:mt-12 md:pt-12">
+        <div className="mx-auto max-w-3xl text-center">
           {c.eyebrow ? (
             <p className="text-xs uppercase tracking-[0.22em] text-brand-sky">{c.eyebrow}</p>
           ) : null}
-          <h2 className="display mt-3 text-3xl font-bold text-foreground md:text-4xl">
-            {c.title || "What you get — and what you don't"}
+          <h2 id="services-benefits-title" className="display mt-3 flex items-center justify-center gap-3 text-3xl font-bold text-foreground md:text-4xl">
+            <ShieldCheck aria-hidden="true" className="h-7 w-7 shrink-0 text-brand-sky" />
+            {c.getTitle || "What you get"}
           </h2>
           {c.subtitle ? (
             <p className="mt-3 text-muted-foreground">{c.subtitle}</p>
           ) : null}
         </div>
 
-        <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-2">
-          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.04] p-6 md:p-8">
-            <div className="flex items-center gap-2.5">
-              <div className="grid h-9 w-9 place-items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
-                <ShieldCheck className="h-5 w-5" />
-              </div>
-              <h3 className="display text-lg font-semibold text-foreground">
-                {c.getTitle || "What you get"}
-              </h3>
-            </div>
-            <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-              {gets.map((g) => (
-                <li key={g} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
-                  <span>{g}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-2xl border border-rose-400/20 bg-rose-400/[0.04] p-6 md:p-8">
-            <div className="flex items-center gap-2.5">
-              <div className="grid h-9 w-9 place-items-center rounded-lg border border-rose-400/30 bg-rose-400/10 text-rose-300">
-                <X className="h-5 w-5" />
-              </div>
-              <h3 className="display text-lg font-semibold text-foreground">
-                {c.avoidTitle || "What you don't get"}
-              </h3>
-            </div>
-            <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-              {avoids.map((a) => (
-                <li key={a} className="flex items-start gap-2.5">
-                  <X className="mt-0.5 h-4 w-4 shrink-0 text-rose-300" />
-                  <span>{a}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <ul className="mx-auto mt-8 grid max-w-5xl gap-x-12 gap-y-5 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
+          {gets.map((g, index) => (
+            <li key={`${index}-${g}`} className="flex min-w-0 items-start gap-3">
+              <CheckCircle2 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand-sky" />
+              <span className="min-w-0 break-words">{g}</span>
+            </li>
+          ))}
+        </ul>
       </section>
     </CmsMark>
   );

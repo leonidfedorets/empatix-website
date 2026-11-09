@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { seoMeta } from "@/lib/seo";
-import { ArrowRight, ExternalLink, Sparkles, Target, Wrench, CheckCircle2, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
+import { ArrowRight, Sparkles, Target, Wrench, CheckCircle2, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PillBadge, Pagination } from "@/components/ds";
@@ -66,15 +66,14 @@ type CaseItem = {
   image3?: string;
   details?: string;
   outcomes?: string[];
-  demo?: string;
   askLabel?: string;
   askHref?: string;
 };
 
 const CASES: CaseItem[] = [
-  { name: "Fine Clause", kind: "AI LegalTech / Contract Intelligence", client: "Legal and operations teams spend hours reviewing contracts manually — searching for clauses, risks and obligations across hundreds of pages, with high cost and easy-to-miss details.", solution: "Fine Clause is an AI-powered contract analysis product (web + mobile) that uploads documents, extracts key clauses, detects risks, summarises obligations and answers questions about contract text using private-data AI.", chips: ["AI", "LegalTech", "RAG", "Document AI"], image: imgFineClause, image2: imgFineClause2, image3: imgFineClause3, demo: "https://finclause.com" },
-  { name: "OneStellara", kind: "AI CRM / BeautyTech", client: "Beauty salon owners juggle clients, appointments, staff schedules, communication and loyalty across messengers, spreadsheets and disconnected tools — losing revenue and retention.", solution: "OneStellara is an all-in-one CRM and business management platform for beauty salons — bookings, client profiles, communication, staff, loyalty and reporting in one system, with AI recommendations and marketing automation on top.", chips: ["CRM", "SaaS", "Automation", "AI"], image: imgOneStellara, image2: imgOneStellara2, image3: imgOneStellara3, demo: "https://onestellara.com" },
-  { name: "Aureum", kind: "AI Mentor / EdTech", client: "People who want structured personal development, learning support or coaching can't always afford a human mentor — and generic chatbots don't feel personal or contextual.", solution: "Aureum is an AI chat mentor application (web + mobile) that delivers interactive guidance, learning assistance and conversational coaching tailored to each user's goals and progress.", chips: ["AI Chat", "EdTech", "Mobile", "Conversational AI"], image: imgAureum, image2: imgAureum2, image3: imgAureum3, demo: "https://oneaureum.com" },
+  { name: "Fine Clause", kind: "AI LegalTech / Contract Intelligence", client: "Legal and operations teams spend hours reviewing contracts manually — searching for clauses, risks and obligations across hundreds of pages, with high cost and easy-to-miss details.", solution: "Fine Clause is an AI-powered contract analysis product (web + mobile) that uploads documents, extracts key clauses, detects risks, summarises obligations and answers questions about contract text using private-data AI.", chips: ["AI", "LegalTech", "RAG", "Document AI"], image: imgFineClause, image2: imgFineClause2, image3: imgFineClause3 },
+  { name: "OneStellara", kind: "AI CRM / BeautyTech", client: "Beauty salon owners juggle clients, appointments, staff schedules, communication and loyalty across messengers, spreadsheets and disconnected tools — losing revenue and retention.", solution: "OneStellara is an all-in-one CRM and business management platform for beauty salons — bookings, client profiles, communication, staff, loyalty and reporting in one system, with AI recommendations and marketing automation on top.", chips: ["CRM", "SaaS", "Automation", "AI"], image: imgOneStellara, image2: imgOneStellara2, image3: imgOneStellara3 },
+  { name: "Aureum", kind: "AI Mentor / EdTech", client: "People who want structured personal development, learning support or coaching can't always afford a human mentor — and generic chatbots don't feel personal or contextual.", solution: "Aureum is an AI chat mentor application (web + mobile) that delivers interactive guidance, learning assistance and conversational coaching tailored to each user's goals and progress.", chips: ["AI Chat", "EdTech", "Mobile", "Conversational AI"], image: imgAureum, image2: imgAureum2, image3: imgAureum3 },
   { name: "AI SDR Automation", kind: "Sales Automation / AI Agent", client: "Outbound sales teams burn hours on lead research, list cleaning, personalised first-touch and CRM updates — slowing pipeline growth and burning out reps.", solution: "We build AI SDR workflows that collect leads, enrich data, generate personalised outreach, run multi-step communication, update CRM records and qualify replies — so reps focus on real conversations.", chips: ["AI Agents", "Sales", "CRM", "Automation"], image: imgAiSdr, image2: imgAiSdr2, image3: imgAiSdr3 },
   { name: "Lead Generation Automation", kind: "Data Automation / GrowthTech", client: "Growth teams need a steady, structured flow of qualified leads — but manual sourcing, enrichment and outreach prep is slow, inconsistent and impossible to scale.", solution: "End-to-end lead generation systems built with website parsers, enrichment APIs, n8n / Zapier / Node.js, CRM integrations, Google Sheets and custom dashboards — automating sourcing, structuring and outreach preparation.", chips: ["n8n", "Zapier", "Node.js", "Enrichment"], image: imgLeadGen, image2: imgLeadGen2, image3: imgLeadGen3 },
   { name: "Fintech Operations Automation", kind: "Fintech / Admin Automation", client: "Fintech companies carry heavy operational load — admin workflows, transaction handling, reconciliation, onboarding and reporting that grow faster than headcount can.", solution: "We automate fintech operational workflows: admin processes, CRM integrations, transaction-related logic, reconciliation, onboarding pipelines and internal business tools — reducing manual work and operational risk.", chips: ["Fintech", "Operations", "Integrations", "Compliance"], image: imgFintech, image2: imgFintech2, image3: imgFintech3 },
@@ -94,7 +93,6 @@ type CmsCaseData = {
   image3?: string;
   details?: string;
   outcomes?: string;
-  demo?: string;
   askLabel?: string;
   askHref?: string;
 };
@@ -117,7 +115,6 @@ function CasesPage() {
           image3: row.data.image3 || fb?.image3 || undefined,
           details: row.data.details || undefined,
           outcomes: (row.data.outcomes || "").split("\n").map((s) => s.trim()).filter(Boolean),
-          demo: row.data.demo || fb?.demo || undefined,
           askLabel: row.data.askLabel || "Ask about it",
           askHref: row.data.askHref || "/contact",
         };
@@ -254,21 +251,6 @@ function CasesPage() {
                     ))}
                   </div>
                   <div className="mt-6 flex items-center justify-between gap-3 border-t border-white/5 pt-5" data-cms-ignore="">
-                    {c.demo && (
-                      <a
-                        href={c.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => { e.stopPropagation(); track("demo_click", { case_name: c.name, location: "card" }); }}
-                        className="group/btn relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-white shadow-brand transition hover:brightness-110"
-                      >
-                        <span className="relative z-10 inline-flex items-center gap-2">
-                          Live Demo
-                          <ExternalLink className="h-3.5 w-3.5 transition group-hover/btn:translate-x-0.5" />
-                        </span>
-                        <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover/btn:translate-x-full" />
-                      </a>
-                    )}
                     {(() => {
                       const href = c.askHref || "/contact";
                       const label = c.askLabel || "Ask about it";
@@ -566,18 +548,6 @@ function CaseModal({ item, index, onClose }: { item: CaseItem | null; index: num
 
             {/* CTAs — sticky on mobile, inline on desktop */}
             <div className="sticky bottom-0 z-10 flex flex-wrap items-center gap-3 border-t border-white/10 bg-[#0b0d12]/95 px-6 py-4 backdrop-blur md:static md:bg-transparent md:px-8 md:py-6">
-              {item.demo && (
-                <a
-                  href={item.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track("demo_click", { case_name: item.name, location: "modal" })}
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-white shadow-brand transition hover:brightness-110 md:flex-none"
-
-                >
-                  Live Demo <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              )}
               {askExternal ? (
                 <a href={askHref} target="_blank" rel="noreferrer" className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-foreground transition hover:border-brand-sky hover:text-brand-sky md:flex-none">
                   {askLabel} <ArrowRight className="h-3.5 w-3.5" />

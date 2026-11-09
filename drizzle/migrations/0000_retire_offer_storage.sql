@@ -1,0 +1,1 @@
+COMMENT ON TABLE public.offers IS 'DEPRECATED: estimate workflow removed from the application; retained only as historical data, with no active application readers or writers.';

@@ -1,8 +1,10 @@
+import { adminMeta } from "@/lib/admin/admin-meta";
 import { createFileRoute } from "@tanstack/react-router";
 import { MediaLibrary } from "@/components/admin/MediaLibrary";
 
 export const Route = createFileRoute("/admin/media")({
   ssr: false,
+  head: () => adminMeta("Media library", "Manage image uploads for Empatix site content."),
   component: MediaPage,
 });
 

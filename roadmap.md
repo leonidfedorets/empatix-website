@@ -1,0 +1,14 @@
+# Tasks
+- [x] Add administrator password change without email and verify permissions and sign-in; Iryna's requested temporary password was set and a fresh login opened Insights.
+- [x] Add restricted Insights editor access and safe administrator user management, preserving existing accounts.
+- [x] Build simple Insights article editor with rich text, drafts, preview and existing public templates.
+- [x] Add account password change and email invitation/recovery flows; send Iryna a password setup email for her existing account.
+- [x] Verify editor publication end-to-end and server restrictions; add Ukrainian production instructions in public/admin-guide.md.
+- [ ] Production verification and recipient email-link acceptance require publishing and opening the delivered email; custom sender configuration remains unverified.
+- [ ] Existing visual snapshot test is blocked by its missing configured Chromium executable; responsive snapshot and last-active-admin trigger race tests remain unverified.
+- [x] Remove Quick Offer completely, including buttons, pages and active integrations; do not replace its CTAs. Historical offer records are retired and unused.
+- [x] Keep only What you get and integrate it with the services comparison.
+- [x] Verify text consistency and desktop/mobile rendering.
+- [x] Apply the required package security update and check preview health.
+- [x] Change the Contact Telegram link to @empatixtech.
+- [x] Send Contact form submissions to the Empatix | Leads Telegram group.

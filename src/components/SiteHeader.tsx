@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { CmsMark } from "./CmsMark";
 
 const NAV = [
   { to: "/services", label: "Services" },
@@ -36,9 +35,9 @@ export function SiteHeader() {
         }`}
       >
         <div className={`container-x flex items-center justify-between transition-all duration-300 ${scrolled ? "h-14" : "h-16"}`}>
-          <CmsMark kind="section" target="branding" label="Logo / Branding" as="div" className="transition-transform duration-200 hover:scale-[1.04]">
+          <div className="transition-transform duration-200 hover:scale-[1.04]">
             <Logo />
-          </CmsMark>
+          </div>
           <nav className="hidden items-center gap-1 lg:flex">
             {NAV.map((item) => (
               <Link
@@ -55,15 +54,6 @@ export function SiteHeader() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <a
-              href="https://quotes.empatixtech.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative hidden overflow-hidden rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-white shadow-brand transition hover:brightness-110 sm:inline-flex"
-            >
-              <span className="relative z-10">Get your quick offer</span>
-              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            </a>
             <button
               type="button"
               aria-label="Toggle menu"
@@ -102,15 +92,6 @@ export function SiteHeader() {
                     </Link>
                   </motion.div>
                 ))}
-                <a
-                  href="https://quotes.empatixtech.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 rounded-full bg-gradient-brand px-5 py-3 text-center text-sm font-semibold text-white"
-                >
-                  Get your quick offer
-                </a>
               </div>
             </motion.div>
           )}

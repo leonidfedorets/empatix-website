@@ -37,7 +37,7 @@ export const Route = createFileRoute("/contact")({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             name: "Empatix",
-            url: "https://empatix-website.vercel.app/contact",
+            url: "https://empathic-site-studio.lovable.app/contact",
             email: "sales@empatixtech.com",
             telephone: "+371 24965 140",
             address: {

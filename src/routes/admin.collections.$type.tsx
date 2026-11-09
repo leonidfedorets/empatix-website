@@ -1,3 +1,4 @@
+import { adminMeta } from "@/lib/admin/admin-meta";
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -14,6 +15,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/collections/$type")({
   ssr: false,
+  head: () => adminMeta("Content collections", "Manage Empatix website content collections."),
   component: CollectionList,
 });
 
@@ -46,7 +48,7 @@ function CollectionList() {
       }),
     onSuccess: (row) => {
       qc.invalidateQueries({ queryKey: ["admin", "collection", type] });
-      navigate({ to: `/admin/collections/${type}/${(row as any).id}` });
+      navigate({ to: "/admin/collections/$type/$id", params: { type, id: (row as any).id } });
     },
     onError: (e: Error) => toast.error(e.message),
   });
@@ -107,7 +109,8 @@ function CollectionList() {
                 <tr key={row.id} className="border-t border-border">
                   <td className="px-4 py-2">
                     <Link
-                      to={`/admin/collections/${type}/${row.id}`}
+                      to="/admin/collections/$type/$id"
+                      params={{ type, id: row.id }}
                       className="font-medium hover:underline"
                     >
                       {row.data?.[def.titleField] || <span className="italic text-muted-foreground">untitled</span>}

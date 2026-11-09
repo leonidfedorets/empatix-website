@@ -8,9 +8,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { CmsMark, CmsField, CmsItem } from "@/components/CmsMark";
+import { CmsMark } from "@/components/CmsMark";
 import { useCmsSection, useCmsCollection } from "@/lib/cms/useCmsContent";
-import { useHeroLogoUrl } from "@/components/Logo";
 import { RevealGroup, RevealItem, Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/CountUp";
 import { ICON_OPTIONS } from "@/components/admin/IconPicker";
@@ -18,6 +17,7 @@ import caseFineClause from "@/assets/case-fine-clause.jpg";
 import caseAiSdr from "@/assets/case-ai-sdr.jpg";
 import caseGalaxy from "@/assets/case-galaxy-connext.jpg";
 import caseSiteParsers from "@/assets/case-site-parsers.jpg";
+import empatixLogoAsset from "@/assets/empatix-logo.png";
 import ctaDiscoveryBg from "@/assets/cta-discovery-bg.jpg";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -144,8 +144,6 @@ function HomePage() {
 type HeroContent = {
   headline: string;
   subheadline: string;
-  ctaPrimaryLabel: string;
-  ctaPrimaryHref: string;
   ctaSecondaryLabel: string;
   ctaSecondaryHref: string;
   ctaTertiaryLabel: string;
@@ -158,7 +156,6 @@ type HeroContent = {
 
 function Hero() {
   const c = useCmsSection<HeroContent>("hero");
-  const heroLogoUrl = useHeroLogoUrl();
   return (
     <section className="relative overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -179,8 +176,8 @@ function Hero() {
           style={{
             background:
               "linear-gradient(115deg, #6FA8FF 0%, #6FA8FF 42%, #2547E0 50%, #1B3A99 70%, #050912 100%)",
-            WebkitMaskImage: `url(${heroLogoUrl})`,
-            maskImage: `url(${heroLogoUrl})`,
+            WebkitMaskImage: `url(${empatixLogoAsset})`,
+            maskImage: `url(${empatixLogoAsset})`,
             WebkitMaskRepeat: "no-repeat",
             maskRepeat: "no-repeat",
             WebkitMaskSize: "contain",
@@ -196,83 +193,61 @@ function Hero() {
 
       <div className="container-x section-y">
         <div className="text-readable-wide">
-          <CmsField section="hero" field="headline" as="div">
-            <TypewriterHeadline
-              key={c.headline}
-              className="display fluid-h1 text-balance font-bold"
-              segments={[{ text: c.headline }]}
-              delay={0.1}
-            />
-          </CmsField>
+          <TypewriterHeadline
+            key={c.headline}
+            className="display fluid-h1 text-balance font-bold"
+            segments={[{ text: c.headline }]}
+            delay={0.1}
+          />
 
-          <CmsField section="hero" field="subheadline" as="div">
-            <TypewriterText
-              key={c.subheadline}
-              as="p"
-              className="fluid-body text-readable mt-5 leading-relaxed text-muted-foreground md:mt-6"
-              text={c.subheadline}
-              delay={1.1}
-              stagger={0.012}
-            />
-          </CmsField>
+          <TypewriterText
+            key={c.subheadline}
+            as="p"
+            className="fluid-body text-readable mt-5 leading-relaxed text-muted-foreground md:mt-6"
+            text={c.subheadline}
+            delay={1.1}
+            stagger={0.012}
+          />
 
           <Reveal className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center md:mt-9" delay={0.4} duration={0.6}>
-            <CmsField section="hero" field="ctaPrimaryLabel" as="span">
-              <a
-                href={c.ctaPrimaryHref}
-                target={/^https?:/.test(c.ctaPrimaryHref) ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-6 py-3.5 text-sm font-semibold text-white shadow-brand transition hover:brightness-110 sm:w-auto"
-              >
-                <span className="relative z-10 inline-flex items-center gap-2">
-                  {c.ctaPrimaryLabel}
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                </span>
-                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              </a>
-            </CmsField>
-            <CmsField section="hero" field="ctaSecondaryLabel" as="span">
-              <a
-                href={c.ctaSecondaryHref}
-                target={/^https?:/.test(c.ctaSecondaryHref) ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-white/30 hover:bg-white/5 sm:w-auto"
-              >
-                <span className="relative z-10 inline-flex items-center gap-2">
-                  {c.ctaSecondaryLabel}
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                </span>
-                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              </a>
-            </CmsField>
-            <CmsField section="hero" field="ctaTertiaryLabel" as="span">
-              <a
-                href={c.ctaTertiaryHref}
-                target={/^https?:/.test(c.ctaTertiaryHref) ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground sm:py-3.5"
-              >
-                {c.ctaTertiaryLabel} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </a>
-            </CmsField>
+            <a
+              href={c.ctaSecondaryHref}
+              target={/^https?:/.test(c.ctaSecondaryHref) ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-white/30 hover:bg-white/5 sm:w-auto"
+            >
+              <span className="relative z-10 inline-flex items-center gap-2">
+                {c.ctaSecondaryLabel}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </span>
+              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+            </a>
+            <a
+              href={c.ctaTertiaryHref}
+              target={/^https?:/.test(c.ctaTertiaryHref) ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground sm:py-3.5"
+            >
+              {c.ctaTertiaryLabel} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            </a>
           </Reveal>
           {(c.proofMetric || c.proofText) && (
             <Reveal className="mt-7" delay={0.5} duration={0.5}>
               <a
                 href={c.proofCaseHref || "/cases"}
-                className="group inline-flex max-w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/[0.06]"
+                className="group flex w-full max-w-full flex-col items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/[0.06] sm:flex-row sm:items-center"
               >
-                <CmsField section="hero" field="proofMetric" as="span" className="inline-flex h-9 items-center rounded-full bg-gradient-brand px-3 text-sm font-semibold text-white shadow-brand">
+                <span className="inline-flex h-9 items-center rounded-full bg-gradient-brand px-3 text-sm font-semibold text-white shadow-brand">
                   {c.proofMetric}
-                </CmsField>
-                <CmsField section="hero" field="proofText" as="span" className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
+                </span>
+                <span className="min-w-0 flex-1 text-sm text-muted-foreground">
                   {c.proofText}
-                </CmsField>
+                </span>
                 {c.proofCaseLabel && (
-                  <CmsField section="hero" field="proofCaseLabel" as="span" className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-foreground sm:inline-flex">
+                  <span className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-foreground sm:inline-flex">
                     {c.proofCaseLabel}
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                  </CmsField>
+                  </span>
                 )}
               </a>
             </Reveal>
@@ -452,26 +427,22 @@ const DEFAULT_SERVICES = [
 function Services() {
   const header = useCmsSection<{ eyebrow: string; title: string; linkLabel: string; linkHref: string }>("services_header");
   const rows = useCmsCollection<{ number: string; title: string; summary: string; linkHref: string; tags: string }>("services");
-  const items = rows.length ? rows : DEFAULT_SERVICES.map((d) => ({ id: "", data: d, sort_order: 0 }));
+  const items = rows.length ? rows.map((r) => r.data) : DEFAULT_SERVICES;
 
   return (
     <section className="container-x py-24">
       <Reveal className="mb-14 flex items-end justify-between gap-8">
         <div className="max-w-3xl">
-          <CmsField section="services_header" field="eyebrow" as="p" className="eyebrow mb-3">{header.eyebrow}</CmsField>
-          <CmsField section="services_header" field="title" as="h2" className="display text-4xl font-bold leading-tight md:text-5xl">{header.title}</CmsField>
+          <p className="eyebrow mb-3">{header.eyebrow}</p>
+          <h2 className="display text-4xl font-bold leading-tight md:text-5xl">{header.title}</h2>
         </div>
-        <CmsField section="services_header" field="linkLabel" as="span">
-          <a href={header.linkHref} className="group hidden items-center gap-1 text-sm font-semibold text-brand-sky hover:text-foreground md:inline-flex">
-            {header.linkLabel} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </a>
-        </CmsField>
+        <a href={header.linkHref} className="group hidden items-center gap-1 text-sm font-semibold text-brand-sky hover:text-foreground md:inline-flex">
+          {header.linkLabel} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+        </a>
       </Reveal>
       <RevealGroup className="grid gap-4 md:grid-cols-2 md:auto-rows-fr" stagger={0.12}>
-        {items.map((row, idx) => {
-          const s = (row as any).data ?? row;
-          const id = (row as any).id;
-          const Card = (
+        {items.map((s, idx) => (
+          <RevealItem key={`${s.title}-${idx}`} className="h-full">
             <div className="group relative flex h-full min-h-[340px] flex-col overflow-hidden rounded-3xl border border-white/5 bg-card p-8 transition duration-300 hover:-translate-y-1 hover:border-brand-sky/40 hover:shadow-brand">
               <div className="flex items-start justify-between">
                 <span className="display text-sm font-bold tracking-widest text-brand-sky">{s.number}</span>
@@ -479,25 +450,17 @@ function Services() {
               <h3 className="display mt-8 text-2xl font-bold md:text-3xl">{s.title}</h3>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">{s.summary}</p>
               <div className="mt-auto pt-6 flex flex-wrap gap-1.5">
-                {splitLines(s.tags).map((t: string) => (
+                {splitLines(s.tags).map((t) => (
                   <span key={t} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-wider text-muted-foreground transition group-hover:border-brand-sky/30 group-hover:text-foreground">
                     {t}
                   </span>
                 ))}
               </div>
             </div>
-          );
-          return (
-            <RevealItem key={`${s.title}-${idx}`} className="h-full">
-              {id ? (
-                <CmsItem collection="services" itemId={id} label={s.title} className="h-full block">
-                  {Card}
-                </CmsItem>
-              ) : Card}
-            </RevealItem>
-          );
-        })}
+          </RevealItem>
+        ))}
       </RevealGroup>
+
     </section>
   );
 }
@@ -531,28 +494,25 @@ const CASE_FALLBACK_IMAGES: Record<string, string> = {
 function FeaturedCases() {
   const header = useCmsSection<{ eyebrow: string; title: string; linkLabel: string; linkHref: string }>("cases_header");
   const rows = useCmsCollection<{ name: string; kind: string; summary: string; outcome: string; image: string; chips: string }>("case_studies");
-  const rawItems = rows.length ? rows : DEFAULT_CASES.map((d) => ({ id: "", data: d, sort_order: 0 }));
-  const items = rawItems.map((r) => ({ ...((r as any).data ?? r), _id: (r as any).id ?? "" }));
+  const items = rows.length ? rows.map((r) => r.data) : DEFAULT_CASES;
 
   return (
     <section className="container-x py-24">
       <Reveal className="mb-14 flex items-end justify-between gap-8">
         <div className="max-w-3xl">
-          <CmsField section="cases_header" field="eyebrow" as="p" className="eyebrow mb-3">{header.eyebrow}</CmsField>
-          <CmsField section="cases_header" field="title" as="h2" className="display text-4xl font-bold leading-tight md:text-5xl">{header.title}</CmsField>
+          <p className="eyebrow mb-3">{header.eyebrow}</p>
+          <h2 className="display text-4xl font-bold leading-tight md:text-5xl">{header.title}</h2>
         </div>
-        <CmsField section="cases_header" field="linkLabel" as="span">
-          <a href={header.linkHref} className="group hidden items-center gap-1 text-sm font-semibold text-brand-sky hover:text-foreground md:inline-flex">
-            {header.linkLabel} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </a>
-        </CmsField>
+        <a href={header.linkHref} className="group hidden items-center gap-1 text-sm font-semibold text-brand-sky hover:text-foreground md:inline-flex">
+          {header.linkLabel} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+        </a>
       </Reveal>
       {items.length > 4 ? (
         <CasesCarousel items={items} />
       ) : (
         <RevealGroup className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" stagger={0.1}>
           {items.map((c, idx) => (
-            <CaseCard key={`${c.name}-${idx}`} c={c} itemId={(c as any)._id} />
+            <CaseCard key={`${c.name}-${idx}`} c={c} />
           ))}
         </RevealGroup>
       )}
@@ -567,9 +527,9 @@ function FeaturedCases() {
 
 type CaseItem = { name: string; kind: string; summary: string; outcome?: string; image: string; chips: string };
 
-function CaseCard({ c, itemId }: { c: CaseItem; itemId?: string }) {
+function CaseCard({ c }: { c: CaseItem }) {
   const img = c.image || CASE_FALLBACK_IMAGES[c.name] || "";
-  const inner = (
+  return (
     <RevealItem
       as="article"
       className="group relative overflow-hidden rounded-2xl border border-white/5 bg-card transition duration-300 hover:-translate-y-1 hover:border-white/20"
@@ -606,12 +566,6 @@ function CaseCard({ c, itemId }: { c: CaseItem; itemId?: string }) {
         </div>
       </div>
     </RevealItem>
-  );
-  if (!itemId) return inner;
-  return (
-    <CmsItem collection="case_studies" itemId={itemId} label={c.name}>
-      {inner}
-    </CmsItem>
   );
 }
 
@@ -841,37 +795,33 @@ function FinalCTA() {
           />
           <div className="relative grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
             <div>
-              <CmsField section="final_cta" field="title" as="h2" className="display text-balance text-3xl font-bold text-white md:text-5xl">
+              <h2 className="display text-balance text-3xl font-bold text-white md:text-5xl">
                 {c.title}
-              </CmsField>
-              <CmsField section="final_cta" field="body" as="p" className="mt-4 max-w-xl text-white/80">{c.body}</CmsField>
+              </h2>
+              <p className="mt-4 max-w-xl text-white/80">{c.body}</p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
-              <CmsField section="final_cta" field="primaryLabel" as="span">
-                <a
-                  href={c.primaryHref}
-                  target={/^https?:/.test(c.primaryHref) ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-black px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-black/80"
-                >
-                  <span className="relative z-10 inline-flex items-center gap-2">
-                    {c.primaryLabel}
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                  </span>
-                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                </a>
-              </CmsField>
-              <CmsField section="final_cta" field="secondaryLabel" as="span">
-                <a
-                  href={c.secondaryHref}
-                  target={/^https?:/.test(c.secondaryHref) ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/20"
-                >
-                  <span className="relative z-10">{c.secondaryLabel}</span>
-                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                </a>
-              </CmsField>
+              <a
+                href={c.primaryHref}
+                target={/^https?:/.test(c.primaryHref) ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-black px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-black/80"
+              >
+                <span className="relative z-10 inline-flex items-center gap-2">
+                  {c.primaryLabel}
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                </span>
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              </a>
+              <a
+                href={c.secondaryHref}
+                target={/^https?:/.test(c.secondaryHref) ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/20"
+              >
+                <span className="relative z-10">{c.secondaryLabel}</span>
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              </a>
             </div>
           </div>
         </div>

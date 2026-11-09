@@ -1,3 +1,4 @@
+import { adminMeta } from "@/lib/admin/admin-meta";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -12,6 +13,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/collections/$type/$id")({
   ssr: false,
+  head: () => adminMeta("Collection item editor", "Edit an item in an Empatix website content collection."),
   component: ItemEditor,
 });
 

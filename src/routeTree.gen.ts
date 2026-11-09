@@ -9,105 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as TeamExtensionRouteImport } from './routes/team-extension'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as InsightsRouteImport } from './routes/insights'
-import { Route as IndustriesRouteImport } from './routes/industries'
-import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
-import { Route as GdprRouteImport } from './routes/gdpr'
-import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CasesRouteImport } from './routes/cases'
-import { Route as AiSolutionsRouteImport } from './routes/ai-solutions'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AiSolutionsRouteImport } from './routes/ai-solutions'
+import { Route as CasesRouteImport } from './routes/cases'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as GdprRouteImport } from './routes/gdpr'
+import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
+import { Route as IndustriesRouteImport } from './routes/industries'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TeamExtensionRouteImport } from './routes/team-extension'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
-import { Route as AdminUsersRouteImport } from './routes/admin.users'
-import { Route as AdminMediaRouteImport } from './routes/admin.media'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminEditorRouteImport } from './routes/admin.editor'
-import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
+import { Route as AdminAccountRouteImport } from './routes/admin.account'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
-import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
-import { Route as AdminContentSectionRouteImport } from './routes/admin.content.$section'
+import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
+import { Route as AdminEditorRouteImport } from './routes/admin.editor'
+import { Route as AdminInsightsRouteImport } from './routes/admin.insights'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as AdminCollectionsTypeRouteImport } from './routes/admin.collections.$type'
-import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
+import { Route as AdminContentSectionRouteImport } from './routes/admin.content.$section'
+import { Route as AdminInsightsIdRouteImport } from './routes/admin.insights.$id'
+import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as AdminCollectionsTypeIdRouteImport } from './routes/admin.collections.$type.$id'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TeamExtensionRoute = TeamExtensionRouteImport.update({
-  id: '/team-extension',
-  path: '/team-extension',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InsightsRoute = InsightsRouteImport.update({
-  id: '/insights',
-  path: '/insights',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndustriesRoute = IndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HowWeWorkRoute = HowWeWorkRouteImport.update({
-  id: '/how-we-work',
-  path: '/how-we-work',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GdprRoute = GdprRouteImport.update({
-  id: '/gdpr',
-  path: '/gdpr',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CookiesRoute = CookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CasesRoute = CasesRouteImport.update({
-  id: '/cases',
-  path: '/cases',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AiSolutionsRoute = AiSolutionsRouteImport.update({
-  id: '/ai-solutions',
-  path: '/ai-solutions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -115,49 +54,84 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const InsightsIndexRoute = InsightsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => InsightsRoute,
+const AiSolutionsRoute = AiSolutionsRouteImport.update({
+  id: '/ai-solutions',
+  path: '/ai-solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasesRoute = CasesRouteImport.update({
+  id: '/cases',
+  path: '/cases',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GdprRoute = GdprRouteImport.update({
+  id: '/gdpr',
+  path: '/gdpr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowWeWorkRoute = HowWeWorkRouteImport.update({
+  id: '/how-we-work',
+  path: '/how-we-work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesRoute = IndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamExtensionRoute = TeamExtensionRouteImport.update({
+  id: '/team-extension',
+  path: '/team-extension',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const InsightsSlugRoute = InsightsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => InsightsRoute,
-} as any)
-const AdminUsersRoute = AdminUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminMediaRoute = AdminMediaRouteImport.update({
-  id: '/media',
-  path: '/media',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminEditorRoute = AdminEditorRouteImport.update({
-  id: '/editor',
-  path: '/editor',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminBrandingRoute = AdminBrandingRouteImport.update({
-  id: '/branding',
-  path: '/branding',
+const AdminAccountRoute = AdminAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAuditRoute = AdminAuditRouteImport.update({
@@ -165,30 +139,80 @@ const AdminAuditRoute = AdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AdminRoute,
 } as any)
-const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
-  id: '/api/public/contact',
-  path: '/api/public/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminContentSectionRoute = AdminContentSectionRouteImport.update({
-  id: '/content/$section',
-  path: '/content/$section',
+const AdminBrandingRoute = AdminBrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminEditorRoute = AdminEditorRouteImport.update({
+  id: '/editor',
+  path: '/editor',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInsightsRoute = AdminInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const InsightsIndexRoute = InsightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
 } as any)
 const AdminCollectionsTypeRoute = AdminCollectionsTypeRouteImport.update({
   id: '/collections/$type',
   path: '/collections/$type',
   getParentRoute: () => AdminRoute,
 } as any)
-const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
-  id: '/api/public/media/$',
-  path: '/api/public/media/$',
+const AdminContentSectionRoute = AdminContentSectionRouteImport.update({
+  id: '/content/$section',
+  path: '/content/$section',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInsightsIdRoute = AdminInsightsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminInsightsRoute,
+} as any)
+const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
+  id: '/api/public/contact',
+  path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCollectionsTypeIdRoute = AdminCollectionsTypeIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminCollectionsTypeRoute,
+} as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -208,17 +232,21 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team-extension': typeof TeamExtensionRoute
   '/terms': typeof TermsRoute
+  '/admin/account': typeof AdminAccountRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/editor': typeof AdminEditorRoute
+  '/admin/insights': typeof AdminInsightsRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/users': typeof AdminUsersRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/admin/collections/$type': typeof AdminCollectionsTypeRouteWithChildren
   '/admin/content/$section': typeof AdminContentSectionRoute
+  '/admin/insights/$id': typeof AdminInsightsIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/admin/collections/$type/$id': typeof AdminCollectionsTypeIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -238,17 +266,21 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team-extension': typeof TeamExtensionRoute
   '/terms': typeof TermsRoute
+  '/admin/account': typeof AdminAccountRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/editor': typeof AdminEditorRoute
+  '/admin/insights': typeof AdminInsightsRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/users': typeof AdminUsersRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/admin/collections/$type': typeof AdminCollectionsTypeRouteWithChildren
   '/admin/content/$section': typeof AdminContentSectionRoute
+  '/admin/insights/$id': typeof AdminInsightsIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/admin/collections/$type/$id': typeof AdminCollectionsTypeIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -271,17 +303,21 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team-extension': typeof TeamExtensionRoute
   '/terms': typeof TermsRoute
+  '/admin/account': typeof AdminAccountRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/editor': typeof AdminEditorRoute
+  '/admin/insights': typeof AdminInsightsRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/users': typeof AdminUsersRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/admin/collections/$type': typeof AdminCollectionsTypeRouteWithChildren
   '/admin/content/$section': typeof AdminContentSectionRoute
+  '/admin/insights/$id': typeof AdminInsightsIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/admin/collections/$type/$id': typeof AdminCollectionsTypeIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -305,17 +341,21 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/team-extension'
     | '/terms'
+    | '/admin/account'
     | '/admin/audit'
     | '/admin/branding'
     | '/admin/editor'
+    | '/admin/insights'
     | '/admin/login'
     | '/admin/media'
+    | '/admin/reset-password'
     | '/admin/users'
     | '/insights/$slug'
     | '/admin/'
     | '/insights/'
     | '/admin/collections/$type'
     | '/admin/content/$section'
+    | '/admin/insights/$id'
     | '/api/public/contact'
     | '/admin/collections/$type/$id'
     | '/api/public/media/$'
@@ -335,17 +375,21 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/team-extension'
     | '/terms'
+    | '/admin/account'
     | '/admin/audit'
     | '/admin/branding'
     | '/admin/editor'
+    | '/admin/insights'
     | '/admin/login'
     | '/admin/media'
+    | '/admin/reset-password'
     | '/admin/users'
     | '/insights/$slug'
     | '/admin'
     | '/insights'
     | '/admin/collections/$type'
     | '/admin/content/$section'
+    | '/admin/insights/$id'
     | '/api/public/contact'
     | '/admin/collections/$type/$id'
     | '/api/public/media/$'
@@ -367,17 +411,21 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/team-extension'
     | '/terms'
+    | '/admin/account'
     | '/admin/audit'
     | '/admin/branding'
     | '/admin/editor'
+    | '/admin/insights'
     | '/admin/login'
     | '/admin/media'
+    | '/admin/reset-password'
     | '/admin/users'
     | '/insights/$slug'
     | '/admin/'
     | '/insights/'
     | '/admin/collections/$type'
     | '/admin/content/$section'
+    | '/admin/insights/$id'
     | '/api/public/contact'
     | '/admin/collections/$type/$id'
     | '/api/public/media/$'
@@ -406,102 +454,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/team-extension': {
-      id: '/team-extension'
-      path: '/team-extension'
-      fullPath: '/team-extension'
-      preLoaderRoute: typeof TeamExtensionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/insights': {
-      id: '/insights'
-      path: '/insights'
-      fullPath: '/insights'
-      preLoaderRoute: typeof InsightsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/industries': {
-      id: '/industries'
-      path: '/industries'
-      fullPath: '/industries'
-      preLoaderRoute: typeof IndustriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/how-we-work': {
-      id: '/how-we-work'
-      path: '/how-we-work'
-      fullPath: '/how-we-work'
-      preLoaderRoute: typeof HowWeWorkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gdpr': {
-      id: '/gdpr'
-      path: '/gdpr'
-      fullPath: '/gdpr'
-      preLoaderRoute: typeof GdprRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cookies': {
-      id: '/cookies'
-      path: '/cookies'
-      fullPath: '/cookies'
-      preLoaderRoute: typeof CookiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cases': {
-      id: '/cases'
-      path: '/cases'
-      fullPath: '/cases'
-      preLoaderRoute: typeof CasesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai-solutions': {
-      id: '/ai-solutions'
-      path: '/ai-solutions'
-      fullPath: '/ai-solutions'
-      preLoaderRoute: typeof AiSolutionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -511,19 +468,103 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/insights/': {
-      id: '/insights/'
-      path: '/'
-      fullPath: '/insights/'
-      preLoaderRoute: typeof InsightsIndexRouteImport
-      parentRoute: typeof InsightsRoute
+    '/ai-solutions': {
+      id: '/ai-solutions'
+      path: '/ai-solutions'
+      fullPath: '/ai-solutions'
+      preLoaderRoute: typeof AiSolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cases': {
+      id: '/cases'
+      path: '/cases'
+      fullPath: '/cases'
+      preLoaderRoute: typeof CasesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gdpr': {
+      id: '/gdpr'
+      path: '/gdpr'
+      fullPath: '/gdpr'
+      preLoaderRoute: typeof GdprRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-we-work': {
+      id: '/how-we-work'
+      path: '/how-we-work'
+      fullPath: '/how-we-work'
+      preLoaderRoute: typeof HowWeWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries': {
+      id: '/industries'
+      path: '/industries'
+      fullPath: '/industries'
+      preLoaderRoute: typeof IndustriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team-extension': {
+      id: '/team-extension'
+      path: '/team-extension'
+      fullPath: '/team-extension'
+      preLoaderRoute: typeof TeamExtensionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/': {
       id: '/admin/'
@@ -532,46 +573,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/insights/$slug': {
-      id: '/insights/$slug'
-      path: '/$slug'
-      fullPath: '/insights/$slug'
-      preLoaderRoute: typeof InsightsSlugRouteImport
-      parentRoute: typeof InsightsRoute
-    }
-    '/admin/users': {
-      id: '/admin/users'
-      path: '/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/media': {
-      id: '/admin/media'
-      path: '/media'
-      fullPath: '/admin/media'
-      preLoaderRoute: typeof AdminMediaRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/editor': {
-      id: '/admin/editor'
-      path: '/editor'
-      fullPath: '/admin/editor'
-      preLoaderRoute: typeof AdminEditorRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/branding': {
-      id: '/admin/branding'
-      path: '/branding'
-      fullPath: '/admin/branding'
-      preLoaderRoute: typeof AdminBrandingRouteImport
+    '/admin/account': {
+      id: '/admin/account'
+      path: '/account'
+      fullPath: '/admin/account'
+      preLoaderRoute: typeof AdminAccountRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/audit': {
@@ -581,19 +587,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/api/public/contact': {
-      id: '/api/public/contact'
-      path: '/api/public/contact'
-      fullPath: '/api/public/contact'
-      preLoaderRoute: typeof ApiPublicContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/content/$section': {
-      id: '/admin/content/$section'
-      path: '/content/$section'
-      fullPath: '/admin/content/$section'
-      preLoaderRoute: typeof AdminContentSectionRouteImport
+    '/admin/branding': {
+      id: '/admin/branding'
+      path: '/branding'
+      fullPath: '/admin/branding'
+      preLoaderRoute: typeof AdminBrandingRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/admin/editor': {
+      id: '/admin/editor'
+      path: '/editor'
+      fullPath: '/admin/editor'
+      preLoaderRoute: typeof AdminEditorRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/insights': {
+      id: '/admin/insights'
+      path: '/insights'
+      fullPath: '/admin/insights'
+      preLoaderRoute: typeof AdminInsightsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reset-password': {
+      id: '/admin/reset-password'
+      path: '/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/insights/': {
+      id: '/insights/'
+      path: '/'
+      fullPath: '/insights/'
+      preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
     }
     '/admin/collections/$type': {
       id: '/admin/collections/$type'
@@ -602,11 +657,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsTypeRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/api/public/media/$': {
-      id: '/api/public/media/$'
-      path: '/api/public/media/$'
-      fullPath: '/api/public/media/$'
-      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+    '/admin/content/$section': {
+      id: '/admin/content/$section'
+      path: '/content/$section'
+      fullPath: '/admin/content/$section'
+      preLoaderRoute: typeof AdminContentSectionRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/insights/$id': {
+      id: '/admin/insights/$id'
+      path: '/$id'
+      fullPath: '/admin/insights/$id'
+      preLoaderRoute: typeof AdminInsightsIdRouteImport
+      parentRoute: typeof AdminInsightsRoute
+    }
+    '/api/public/contact': {
+      id: '/api/public/contact'
+      path: '/api/public/contact'
+      fullPath: '/api/public/contact'
+      preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/collections/$type/$id': {
@@ -616,8 +685,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsTypeIdRouteImport
       parentRoute: typeof AdminCollectionsTypeRoute
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface AdminInsightsRouteChildren {
+  AdminInsightsIdRoute: typeof AdminInsightsIdRoute
+}
+
+const AdminInsightsRouteChildren: AdminInsightsRouteChildren = {
+  AdminInsightsIdRoute: AdminInsightsIdRoute,
+}
+
+const AdminInsightsRouteWithChildren = AdminInsightsRoute._addFileChildren(
+  AdminInsightsRouteChildren,
+)
 
 interface AdminCollectionsTypeRouteChildren {
   AdminCollectionsTypeIdRoute: typeof AdminCollectionsTypeIdRoute
@@ -631,11 +719,14 @@ const AdminCollectionsTypeRouteWithChildren =
   AdminCollectionsTypeRoute._addFileChildren(AdminCollectionsTypeRouteChildren)
 
 interface AdminRouteChildren {
+  AdminAccountRoute: typeof AdminAccountRoute
   AdminAuditRoute: typeof AdminAuditRoute
   AdminBrandingRoute: typeof AdminBrandingRoute
   AdminEditorRoute: typeof AdminEditorRoute
+  AdminInsightsRoute: typeof AdminInsightsRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMediaRoute: typeof AdminMediaRoute
+  AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCollectionsTypeRoute: typeof AdminCollectionsTypeRouteWithChildren
@@ -643,11 +734,14 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAccountRoute: AdminAccountRoute,
   AdminAuditRoute: AdminAuditRoute,
   AdminBrandingRoute: AdminBrandingRoute,
   AdminEditorRoute: AdminEditorRoute,
+  AdminInsightsRoute: AdminInsightsRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AdminMediaRoute: AdminMediaRoute,
+  AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCollectionsTypeRoute: AdminCollectionsTypeRouteWithChildren,

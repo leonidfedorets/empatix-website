@@ -1,3 +1,4 @@
+import { adminMeta } from "@/lib/admin/admin-meta";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -7,6 +8,7 @@ import { adminListAudit } from "@/lib/admin/audit.functions";
 
 export const Route = createFileRoute("/admin/audit")({
   ssr: false,
+  head: () => adminMeta("Audit log", "Review changes to Empatix content and user access."),
   component: AuditPage,
 });
 

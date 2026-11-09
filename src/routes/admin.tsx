@@ -1,12 +1,16 @@
-import { createFileRoute, Link, Outlet, redirect, useRouter } from "@tanstack/react-router";
+import { adminMeta } from "@/lib/admin/admin-meta";
+import { createFileRoute, Link, Outlet, redirect, useRouter, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { canEditInsights, isAdministrator, editorPathAllowed } from "@/lib/admin/access";
 import { getMyRoles } from "@/lib/admin/users.functions";
 import {
   Image as ImageIcon,
   Users,
+  FileText,
+  Settings,
   ScrollText,
   LogOut,
   Moon,
@@ -15,27 +19,30 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   MousePointerClick,
-  Palette,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
+  head: () => adminMeta("Administration", "Secure Empatix content administration and account access."),
   beforeLoad: async ({ location }) => {
     // Allow public login page through; everything else requires session.
-    if (location.pathname.startsWith("/admin/login")) return;
+    if (location.pathname.startsWith("/admin/login") || location.pathname === "/admin/reset-password") return;
     const { data } = await supabase.auth.getUser();
     if (!data.user) {
       throw redirect({ to: "/admin/login", search: { redirect: location.pathname } });
     }
+    const roles = await getMyRoles();
+    if (!canEditInsights(roles)) throw redirect({ to: "/admin/login", search: { redirect: location.pathname } });
+    if (!isAdministrator(roles) && !editorPathAllowed(location.pathname)) throw redirect({ to: "/admin/insights" });
   },
   component: AdminLayout,
 });
 
 function AdminLayout() {
   const router = useRouter();
-  const path = router.state.location.pathname;
-  const isLogin = path.startsWith("/admin/login");
+  const path = useLocation().pathname;
+  const isLogin = path.startsWith("/admin/login") || path === "/admin/reset-password";
 
   if (isLogin) {
     return (
@@ -51,6 +58,12 @@ function AdminLayout() {
 function AdminShell() {
   const router = useRouter();
   const getRolesFn = useServerFn(getMyRoles);
+  const qc = useQueryClient();
+  const signOut = async () => {
+    await qc.cancelQueries(); qc.clear();
+    await supabase.auth.signOut();
+    await router.navigate({ to: "/admin/login", replace: true });
+  };
   const [open, setOpen] = useState(false);
   const [desktopCollapsed, setDesktopCollapsed] = useState(false);
   useEffect(() => {
@@ -93,7 +106,7 @@ function AdminShell() {
     );
   }
 
-  if (!isAdmin) {
+  if (!canEditInsights(roles)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4 text-center">
         <div className="max-w-md space-y-3">
@@ -104,8 +117,7 @@ function AdminShell() {
           <Button
             variant="outline"
             onClick={async () => {
-              await supabase.auth.signOut();
-              router.navigate({ to: "/admin/login" });
+              await signOut();
             }}
           >
             Sign out
@@ -116,11 +128,14 @@ function AdminShell() {
   }
 
   const nav = [
+    { to: "/admin/insights", label: "Insights", icon: FileText, exact: false },
+    { to: "/admin/account", label: "Account", icon: Settings, exact: false },
+    ...(isAdmin ? [
     { to: "/admin/editor", label: "Visual Editor", icon: MousePointerClick, exact: false },
-    { to: "/admin/branding", label: "Branding / Logo", icon: Palette, exact: false },
     { to: "/admin/media", label: "Media Library", icon: ImageIcon, exact: false },
-    { to: "/admin/users", label: "Admins", icon: Users, exact: false },
+    { to: "/admin/users", label: "Users", icon: Users, exact: false },
     { to: "/admin/audit", label: "Audit Log", icon: ScrollText, exact: false },
+    ] : []),
   ];
 
   return (
@@ -211,8 +226,7 @@ function AdminShell() {
                 variant="outline"
                 size="sm"
                 onClick={async () => {
-                  await supabase.auth.signOut();
-                  router.navigate({ to: "/admin/login" });
+                  await signOut();
                 }}
               >
                 <LogOut className="size-4" />

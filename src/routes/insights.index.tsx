@@ -7,6 +7,8 @@ import { POSTS, INSIGHT_CATEGORIES, type InsightCategory, type Post } from "@/li
 import { PillBadge, FilterPill, Pagination, PaginationMeta } from "@/components/ds";
 import { EditableHero, EditableCta } from "@/components/cms/EditablePageBlocks";
 import { CmsMark } from "@/components/CmsMark";
+import { articleFromData } from "@/lib/insights-content";
+import { publicInsights } from "@/lib/admin/insights.functions";
 import { useCmsCollection } from "@/lib/cms/useCmsContent";
 import bgInsights from "@/assets/bg-insights.jpg";
 import ctaInsightsBg from "@/assets/cta-insights-bg.jpg";
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/insights/")({
       breadcrumbs: [{ name: 'Home', path: '/' }, { name: 'Insights', path: '/insights' }],
     }),
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData({ queryKey: ["cms", "collection", "insights_items"], queryFn: () => publicInsights(), staleTime: 0 }),
   component: InsightsPage,
 });
 
@@ -89,31 +92,8 @@ function InsightsPage() {
     author?: string;
   }>("insights_items");
 
-  const allPosts: Post[] = useMemo(() => {
-    if (!cms.length) return POSTS;
-    const fallbackBySlug = new Map(POSTS.map((p) => [p.slug, p]));
-    return cms.map((row, i) => {
-      const d = row.data;
-      const slug = d.slug || `post-${i + 1}`;
-      const fb = fallbackBySlug.get(slug);
-      const cats = (d.categories || "")
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean) as InsightCategory[];
-      return {
-        slug,
-        title: d.title || fb?.title || "Untitled",
-        excerpt: d.excerpt || fb?.excerpt || "",
-        image: d.image || fb?.image || "",
-        date: d.date || fb?.date || "",
-        categories: cats.length ? cats : (fb?.categories ?? ["AI"]),
-        category: d.category || fb?.category || "AI",
-        readMin: d.readMin || fb?.readMin || 5,
-        author: d.author || fb?.author || "Empatix",
-        body: fb?.body ?? [],
-      };
-    });
-  }, [cms]);
+  const allPosts = useMemo(() => cms.map(row => articleFromData(row.data)), [cms]);
+  const availableCategories = useMemo(() => [...new Set([...INSIGHT_CATEGORIES, ...allPosts.flatMap(p => p.categories)])], [allPosts]);
 
   const filtered = useMemo(
     () => (filter === "All" ? allPosts : allPosts.filter((p) => p.categories.includes(filter))),
@@ -123,6 +103,7 @@ function InsightsPage() {
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   useEffect(() => { setPage(1); }, [filter]);
+  useEffect(() => { setPage(p => Math.min(p, totalPages)); }, [totalPages]);
   const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const topRow = pageItems.slice(0, 3);
   const bottomRow = pageItems.slice(3, 5);
@@ -142,7 +123,7 @@ function InsightsPage() {
       <section className="container-x pb-6" ref={gridTopRef}>
         <p className="eyebrow mb-3">Categories</p>
         <div className="flex flex-wrap gap-2.5" data-cms-ignore="true">
-          {(["All", ...INSIGHT_CATEGORIES] as Filter[]).map((f) => (
+          {(["All", ...availableCategories] as Filter[]).map((f) => (
             <FilterPill key={f} active={filter === f} onClick={() => setFilter(f)}>
               {f}
             </FilterPill>

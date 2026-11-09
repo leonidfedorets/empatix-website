@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_access: {
+        Row: {
+          active: boolean
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           action: string
@@ -152,6 +167,69 @@ export type Database = {
         }
         Relationships: []
       }
+      offers: {
+        Row: {
+          client_email: string
+          client_name: string
+          company_name: string | null
+          complexity: string
+          created_at: string
+          estimated_cost_max: number
+          estimated_cost_min: number
+          estimated_hours: number
+          hash: string
+          id: string
+          modules: Json
+          project_description: string | null
+          project_type: string
+          questionnaire_answers: Json
+          status: string
+          team_composition: Json
+          timeline_weeks: number
+          updated_at: string
+        }
+        Insert: {
+          client_email: string
+          client_name: string
+          company_name?: string | null
+          complexity?: string
+          created_at?: string
+          estimated_cost_max?: number
+          estimated_cost_min?: number
+          estimated_hours?: number
+          hash: string
+          id?: string
+          modules?: Json
+          project_description?: string | null
+          project_type: string
+          questionnaire_answers?: Json
+          status?: string
+          team_composition?: Json
+          timeline_weeks?: number
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string
+          client_name?: string
+          company_name?: string | null
+          complexity?: string
+          created_at?: string
+          estimated_cost_max?: number
+          estimated_cost_min?: number
+          estimated_hours?: number
+          hash?: string
+          id?: string
+          modules?: Json
+          project_description?: string | null
+          project_type?: string
+          questionnaire_answers?: Json
+          status?: string
+          team_composition?: Json
+          timeline_weeks?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -178,10 +256,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_edit_insights: { Args: never; Returns: boolean }
     }
     Enums: {
-      app_role: "super_admin" | "admin"
+      app_role: "super_admin" | "admin" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -197,12 +275,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -226,11 +304,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -251,11 +329,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -276,11 +354,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -293,11 +371,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -309,7 +387,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["super_admin", "admin"],
+      app_role: ["super_admin", "admin", "editor"],
     },
   },
 } as const

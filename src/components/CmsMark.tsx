@@ -15,7 +15,9 @@ export function CmsMark({
   children,
 }: {
   kind: "section" | "collection";
+  /** Section key (e.g. "hero") or collection key (e.g. "services") from src/lib/admin/schemas.ts */
   target: string;
+  /** Human-readable label shown in the editor panel header */
   label: string;
   as?: ElementType;
   className?: string;
@@ -28,84 +30,6 @@ export function CmsMark({
       "data-cms-kind": kind,
       "data-cms-target": target,
       "data-cms-label": label,
-    },
-    children,
-  );
-}
-
-/**
- * Marks an individual field within a section so clicking it in the editor
- * jumps directly to that field in the side panel.
- *
- * Usage:
- *   <CmsField section="hero" field="headline" as="h1" className="...">
- *     {text}
- *   </CmsField>
- */
-export function CmsField({
-  section,
-  field,
-  as = "span",
-  className,
-  style,
-  children,
-}: {
-  section: string;
-  field: string;
-  as?: ElementType;
-  className?: string;
-  style?: React.CSSProperties;
-  children: ReactNode;
-}) {
-  return createElement(
-    as,
-    {
-      className,
-      style,
-      "data-cms-kind": "field",
-      "data-cms-target": section,
-      "data-cms-field": field,
-      "data-cms-label": `${field}`,
-    },
-    children,
-  );
-}
-
-/**
- * Marks a collection item so clicking it in the editor opens that specific
- * item's edit form in the side panel.
- *
- * Usage:
- *   <CmsItem collection="services" itemId={item.id} as="div" className="...">
- *     {card content}
- *   </CmsItem>
- */
-export function CmsItem({
-  collection,
-  itemId,
-  label,
-  as = "div",
-  className,
-  style,
-  children,
-}: {
-  collection: string;
-  itemId: string;
-  label?: string;
-  as?: ElementType;
-  className?: string;
-  style?: React.CSSProperties;
-  children: ReactNode;
-}) {
-  return createElement(
-    as,
-    {
-      className,
-      style,
-      "data-cms-kind": "item",
-      "data-cms-target": collection,
-      "data-cms-item": itemId,
-      "data-cms-label": label ?? collection,
     },
     children,
   );

@@ -8,11 +8,15 @@ import {
   adminDeleteUser,
   adminSetUserDisabled,
   adminSetUserRole,
+  adminSendPasswordEmail,
+  adminSetUserPassword,
+  getMyRoles,
 } from "@/lib/admin/users.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -20,11 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Trash2, Ban, CheckCircle2 } from "lucide-react";
+import { Trash2, Ban, CheckCircle2, Mail, KeyRound } from "lucide-react";
+import { seoMeta } from "@/lib/seo";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/users")({
   ssr: false,
+  head: () => seoMeta({title: "Users — Empatix Admin", description: "Manage Empatix administrator and Insights editor access and invitations.", path: "/admin/users", noindex: true}),
   component: UsersPage,
 });
 
@@ -35,6 +41,26 @@ function UsersPage() {
   const deleteFn = useServerFn(adminDeleteUser);
   const disableFn = useServerFn(adminSetUserDisabled);
   const roleFn = useServerFn(adminSetUserRole);
+  const emailFn = useServerFn(adminSendPasswordEmail);
+  const passwordFn = useServerFn(adminSetUserPassword);
+  const [passwordTarget, setPasswordTarget] = useState<{ id: string; email: string } | null>(null);
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const closePassword = () => {
+    setPasswordTarget(null); setNewPassword(""); setPasswordConfirm(""); setPasswordError("");
+  };
+  const changePassword = useMutation({
+    mutationFn: (value: { user_id: string; password: string }) => passwordFn({ data: value }),
+    gcTime: 0,
+    onSuccess: () => { closePassword(); toast.success("Password changed successfully"); },
+    onError: (error: Error) => setPasswordError(error.message),
+    onSettled: (_result, _error, variables) => { variables.password = ""; },
+  });
+  const rolesFn = useServerFn(getMyRoles);
+  const {data: myRoles = []} = useQuery({queryKey: ["admin", "my-roles"], queryFn: () => rolesFn()});
+  const isSuper = myRoles.includes("super_admin");
+  const sendEmail = useMutation({mutationFn: (user_id: string) => emailFn({data: {user_id}}), onSuccess: () => toast.success("Password setup email sent"), onError: (e: Error) => toast.error(e.message)});
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["admin", "users"],
@@ -42,15 +68,13 @@ function UsersPage() {
   });
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"admin" | "super_admin">("admin");
+  const [role, setRole] = useState<"admin" | "super_admin" | "editor">("editor");
 
   const create = useMutation({
-    mutationFn: () => createFn({ data: { email, password, role } }),
+    mutationFn: () => createFn({ data: { email, role } }),
     onSuccess: () => {
-      toast.success("Admin created");
+      toast.success("Invitation sent");
       setEmail("");
-      setPassword("");
       qc.invalidateQueries({ queryKey: ["admin", "users"] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -72,7 +96,7 @@ function UsersPage() {
   });
 
   const onRole = useMutation({
-    mutationFn: (v: { user_id: string; role: "admin" | "super_admin"; grant: boolean }) =>
+    mutationFn: (v: { user_id: string; role: "admin" | "super_admin" | "editor"; grant: boolean }) =>
       roleFn({ data: v }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "users"] }),
     onError: (e: Error) => toast.error(e.message),
@@ -81,15 +105,15 @@ function UsersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Administrators</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Users</h1>
         <p className="text-sm text-muted-foreground">
-          Only Super Admins can create, disable, or remove other admin users.
+          
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Create new admin</CardTitle>
+          <CardTitle className="text-base">Invite user</CardTitle>
         </CardHeader>
         <CardContent>
           <form
@@ -104,38 +128,28 @@ function UsersPage() {
               <Input id="new-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="new-password">Password</Label>
-              <Input
-                id="new-password"
-                type="password"
-                required
-                minLength={12}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1.5">
               <Label>Role</Label>
               <Select value={role} onValueChange={(v) => setRole(v as any)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="super_admin">Super Admin</SelectItem>
+                  <SelectItem value="editor">Editor</SelectItem>
+                  <SelectItem value="admin">Administrator</SelectItem>
+                  {isSuper && <SelectItem value="super_admin">Super Admin</SelectItem>}
                 </SelectContent>
               </Select>
             </div>
             <div className="sm:col-span-4">
               <Button type="submit" disabled={create.isPending}>
-                {create.isPending ? "Creating…" : "Create admin"}
+                {create.isPending ? "Sending…" : "Send invitation"}
               </Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
-      <div className="overflow-hidden rounded-lg border border-border">
+      <div className="overflow-x-auto rounded-lg border border-border">
         <table className="w-full text-sm">
           <thead className="bg-muted/40 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <tr>
@@ -159,10 +173,10 @@ function UsersPage() {
                   <td className="px-4 py-2">{u.email}</td>
                   <td className="px-4 py-2">
                     <div className="flex gap-2">
-                      {(["admin", "super_admin"] as const).map((r) => {
+                      {(["editor", "admin", ...(isSuper ? ["super_admin" as const] : [])] as const).map((r) => {
                         const has = u.roles.includes(r);
                         return (
-                          <button
+                          <Button type="button" variant="ghost" size="sm" disabled={onRole.isPending}
                             key={r}
                             onClick={() =>
                               onRole.mutate({ user_id: u.id, role: r, grant: !has })
@@ -174,7 +188,7 @@ function UsersPage() {
                             }`}
                           >
                             {r}
-                          </button>
+                          </Button>
                         );
                       })}
                     </div>
@@ -191,6 +205,8 @@ function UsersPage() {
                   </td>
                   <td className="px-4 py-2 text-right">
                     <div className="flex justify-end gap-1">
+                      <Button size="icon" variant="ghost" title="Set password" aria-label={`Set password for ${u.email}`} disabled={!isSuper && u.roles.includes("super_admin")} onClick={() => { changePassword.reset(); setPasswordError(""); setPasswordTarget({ id: u.id, email: u.email }); }}><KeyRound className="size-4" /></Button>
+                      <Button size="icon" variant="ghost" title={u.invited ? "Resend password setup invitation" : "Send password reset"} disabled={sendEmail.isPending} onClick={() => sendEmail.mutate(u.id)}><Mail className="size-4" /></Button>
                       <Button
                         size="icon"
                         variant="ghost"
@@ -218,6 +234,27 @@ function UsersPage() {
           </tbody>
         </table>
       </div>
+      <Dialog open={passwordTarget !== null} onOpenChange={(open) => { if (!open && !changePassword.isPending) { closePassword(); changePassword.reset(); } }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Set password</DialogTitle>
+            <DialogDescription className="break-all">{passwordTarget?.email}</DialogDescription>
+          </DialogHeader>
+          <form className="space-y-4" onSubmit={(event) => {
+            event.preventDefault();
+            if (!passwordTarget || changePassword.isPending) return;
+            if (newPassword !== passwordConfirm) { setPasswordError("Passwords do not match"); return; }
+            setPasswordError("");
+            changePassword.mutate({ user_id: passwordTarget.id, password: newPassword });
+            setNewPassword(""); setPasswordConfirm("");
+          }}>
+            <div className="space-y-2"><Label htmlFor="admin-new-password">New password (at least 12 characters)</Label><Input id="admin-new-password" type="password" autoComplete="new-password" required minLength={12} maxLength={128} disabled={changePassword.isPending} value={newPassword} onChange={event => setNewPassword(event.target.value)} /></div>
+            <div className="space-y-2"><Label htmlFor="admin-confirm-password">Confirm password</Label><Input id="admin-confirm-password" type="password" autoComplete="new-password" required minLength={12} maxLength={128} disabled={changePassword.isPending} value={passwordConfirm} onChange={event => setPasswordConfirm(event.target.value)} /></div>
+            {passwordError && <p role="alert" className="text-sm text-destructive">{passwordError}</p>}
+            <DialogFooter><Button type="button" variant="outline" disabled={changePassword.isPending} onClick={() => { closePassword(); changePassword.reset(); }}>Cancel</Button><Button type="submit" disabled={changePassword.isPending || newPassword.length < 12 || newPassword !== passwordConfirm}>{changePassword.isPending ? "Saving…" : "Save password"}</Button></DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

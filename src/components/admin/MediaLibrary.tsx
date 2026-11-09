@@ -22,9 +22,11 @@ import {
 export function MediaLibrary({
   selectMode = false,
   onSelect,
+  articleMode = false,
 }: {
   selectMode?: boolean;
   onSelect?: (url: string) => void;
+  articleMode?: boolean;
 }) {
   const qc = useQueryClient();
   const list = useServerFn(adminListMedia);
@@ -174,6 +176,7 @@ export function MediaLibrary({
               onDelete={() => {
                 if (confirm("Delete this file?")) deleteMutation.mutate(m.id);
               }}
+              allowDelete={!articleMode}
             />
           ))}
         </div>
@@ -188,12 +191,14 @@ function MediaCard({
   onSelect,
   onSaveAlt,
   onDelete,
+  allowDelete = true,
 }: {
   item: any;
   selectMode?: boolean;
   onSelect?: (url: string) => void;
   onSaveAlt: (alt: string) => void;
   onDelete: () => void;
+  allowDelete?: boolean;
 }) {
   const [alt, setAlt] = useState<string>(item.alt ?? "");
   const dirty = alt !== (item.alt ?? "");
@@ -255,9 +260,9 @@ function MediaCard({
         >
           <Copy className="size-3.5" />
         </Button>
-        <Button size="icon" variant="destructive" className="h-7 w-7" onClick={onDelete}>
+        {allowDelete && <Button size="icon" variant="destructive" className="h-7 w-7" onClick={onDelete}>
           <Trash2 className="size-3.5" />
-        </Button>
+        </Button>}
       </div>
     </div>
   );
@@ -266,9 +271,11 @@ function MediaCard({
 export function MediaPickerButton({
   value,
   onChange,
+  articleMode = false,
 }: {
   value: string;
   onChange: (url: string) => void;
+  articleMode?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const qc = useQueryClient();
@@ -399,6 +406,7 @@ export function MediaPickerButton({
             </div>
             <MediaLibrary
               selectMode
+              articleMode={articleMode}
               onSelect={(url) => {
                 onChange(url);
                 setOpen(false);

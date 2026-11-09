@@ -6,16 +6,19 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { type ReactNode, useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { CmsOverlay } from "@/components/admin/CmsOverlay";
 import { useCmsRealtime } from "@/lib/cms/useCmsContent";
 import { OG_DEFAULT_URL } from "@/lib/seo";
-import { publicGetSection } from "@/lib/admin/content.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 import appCss from "../styles.css?url";
+import { reportLovableError } from "../lib/lovable-error-reporting";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -38,9 +41,13 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
+  useEffect(() => {
+    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+  }, [error]);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -73,13 +80,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData({
-      queryKey: ["cms", "section", "branding"],
-      queryFn: () => publicGetSection({ data: { key: "branding" } }),
-      staleTime: 30_000,
-    });
-  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -93,8 +93,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Empatix" },
       { name: "twitter:description", content: "Empatix builds AI products, business automations and internal tools with senior engineers and fractional CTO guidance." },
-      { property: "og:image", content: OG_DEFAULT_URL },
-      { name: "twitter:image", content: OG_DEFAULT_URL },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -116,13 +114,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@graph": [
             {
               "@type": "Organization",
-              "@id": "https://empatix-website.vercel.app/#organization",
+              "@id": "https://empathic-site-studio.lovable.app/#organization",
               name: "Empatix",
               legalName: "Empatix Tech",
-              url: "https://empatix-website.vercel.app/",
+              url: "https://empathic-site-studio.lovable.app/",
               logo: {
                 "@type": "ImageObject",
-                url: "https://empatix-website.vercel.app/favicon-512.png",
+                url: "https://empathic-site-studio.lovable.app/favicon-512.png",
                 width: 512,
                 height: 512,
               },
@@ -145,16 +143,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                   contactType: "sales",
                   email: "hello@empatixtech.com",
                   availableLanguage: ["English"],
-                  url: "https://empatix-website.vercel.app/contact",
+                  url: "https://empathic-site-studio.lovable.app/contact",
                 },
               ],
             },
             {
               "@type": "WebSite",
-              "@id": "https://empatix-website.vercel.app/#website",
-              url: "https://empatix-website.vercel.app/",
+              "@id": "https://empathic-site-studio.lovable.app/#website",
+              url: "https://empathic-site-studio.lovable.app/",
               name: "Empatix",
-              publisher: { "@id": "https://empatix-website.vercel.app/#organization" },
+              publisher: { "@id": "https://empathic-site-studio.lovable.app/#organization" },
               inLanguage: "en",
             },
           ],
@@ -185,44 +183,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
-  // HubSpot chat widget — loads only when VITE_HUBSPOT_PORTAL_ID is set.
-  // We use a MutationObserver + inline !important to lift the widget above
-  // bottom-of-page CTAs. HubSpot's own stylesheet uses bottom:0px !important,
-  // so a plain CSS rule in our stylesheet can't win; an inline !important can.
+  const router = useRouter();
   useEffect(() => {
-    const portalId = import.meta.env.VITE_HUBSPOT_PORTAL_ID as string | undefined;
-    if (!portalId) return;
-    if (document.getElementById("hs-script-loader")) return;
-
-    let attrObserver: MutationObserver | null = null;
-    const applyOffset = (el: HTMLElement) =>
-      el.style.setProperty("bottom", "80px", "important");
-
-    const bodyObserver = new MutationObserver(() => {
-      const container = document.getElementById("hubspot-messages-iframe-container");
-      if (container && !attrObserver) {
-        applyOffset(container);
-        attrObserver = new MutationObserver(() => applyOffset(container));
-        attrObserver.observe(container, { attributes: true, attributeFilter: ["style"] });
-        bodyObserver.disconnect();
-      }
+    const { data } = supabase.auth.onAuthStateChange(event => {
+      if (!["SIGNED_IN", "SIGNED_OUT", "USER_UPDATED"].includes(event)) return;
+      if (event === "SIGNED_OUT") {
+        void queryClient.cancelQueries().then(() => { queryClient.clear(); void router.invalidate(); });
+      } else { void router.invalidate(); void queryClient.invalidateQueries(); }
     });
-    bodyObserver.observe(document.body, { childList: true });
-
-    const s = document.createElement("script");
-    s.id = "hs-script-loader";
-    s.type = "text/javascript";
-    s.async = true;
-    s.defer = true;
-    s.src = `//js.hs-scripts.com/${portalId}.js`;
-    document.body.appendChild(s);
-    return () => {
-      document.getElementById("hs-script-loader")?.remove();
-      bodyObserver.disconnect();
-      attrObserver?.disconnect();
-    };
-  }, []);
+    return () => data.subscription.unsubscribe();
+  }, [router, queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>

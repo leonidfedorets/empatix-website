@@ -8,6 +8,9 @@ const WINDOW_MS = 10 * 60_000;
 const MAX_PER_WINDOW = 5;
 const COOLDOWN_MS = 15_000;
 const hits = new Map<string, number[]>();
+const recent = new Map<string, number>();
+const TELEGRAM_CHAT_ID = -5371454194;
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 function rateLimit(key: string) {
   const now = Date.now();
@@ -73,70 +76,56 @@ export const Route = createFileRoute("/api/public/contact")({
           );
         }
 
-        console.log("[contact] new submission", {
-          ip,
-          email: data.email,
-          interests: data.interests,
-          message_len: data.message.length,
-        });
+        // Duplicate prevention: identical submission within the window is acknowledged but not resent.
+        const fp = `${data.email.toLowerCase()}|${data.name}|${data.message}|${data.interests.join(",")}`;
+        const now = Date.now();
+        for (const [k, t] of recent) if (now - t > WINDOW_MS) recent.delete(k);
+        if (recent.has(fp)) return Response.json({ ok: true, duplicate: true });
 
-        // HubSpot CRM — create or update contact
-        const hubspotToken = process.env.HUBSPOT_ACCESS_TOKEN;
-        if (hubspotToken) {
-          try {
-            const [firstName, ...rest] = data.name.trim().split(/\s+/);
-            const lastName = rest.join(" ") || "";
-            const properties: Record<string, string> = {
-              email: data.email,
-              firstname: firstName,
-              lastname: lastName,
-              company: data.company,
-              jobtitle: data.role,
-              message: [
-                data.message,
-                data.interests.length ? `Interests: ${data.interests.join(", ")}` : "",
-              ]
-                .filter(Boolean)
-                .join("\n\n"),
-            };
-            const hsRes = await fetch(
-              "https://api.hubapi.com/crm/v3/objects/contacts",
-              {
-                method: "POST",
-                headers: {
-                  Authorization: `Bearer ${hubspotToken}`,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ properties }),
-              },
-            );
-            if (!hsRes.ok) {
-              const body = await hsRes.text();
-              // 409 = contact already exists — update it instead
-              if (hsRes.status === 409) {
-                const idMatch = body.match(/"id"\s*:\s*"(\d+)"/);
-                if (idMatch) {
-                  await fetch(
-                    `https://api.hubapi.com/crm/v3/objects/contacts/${idMatch[1]}`,
-                    {
-                      method: "PATCH",
-                      headers: {
-                        Authorization: `Bearer ${hubspotToken}`,
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({ properties }),
-                    },
-                  );
-                }
-              } else {
-                console.error("[contact] HubSpot error", hsRes.status, body);
-              }
-            }
-          } catch (err) {
-            console.error("[contact] HubSpot fetch failed", err);
-          }
+        const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY;
+        const TELEGRAM_API_KEY = process.env.TELEGRAM_API_KEY;
+        if (!LOVABLE_API_KEY || !TELEGRAM_API_KEY) {
+          console.error("[contact] Telegram not configured");
+          return Response.json({ error: "Could not send your message. Please try again later." }, { status: 500 });
         }
 
+        const dash = (v: string) => (v ? esc(v) : "—");
+        const ts = new Date().toLocaleString("en-GB", { timeZone: "Europe/Riga", dateStyle: "medium", timeStyle: "short" }) + " (Riga)";
+        const text = [
+          "🚀 <b>NEW LEAD — EMPATIX</b>",
+          "",
+          "👤 <b>CONTACT INFORMATION</b>",
+          `• <b>Full Name:</b> ${dash(data.name)}`,
+          `• <b>Email:</b> ${dash(data.email)}`,
+          `• <b>Company:</b> ${dash(data.company)}`,
+          `• <b>Role:</b> ${dash(data.role)}`,
+          "",
+          "🎯 <b>SERVICES</b>",
+          `• <b>Interested in:</b> ${data.interests.length ? esc(data.interests.join(", ")) : "—"}`,
+          "",
+          "📝 <b>PROJECT DETAILS</b>",
+          dash(data.message),
+          "",
+          "🌐 <b>Source:</b> Empatix Website — Contact Form",
+          "",
+          `🕒 <b>Submitted:</b> ${esc(ts)}`,
+        ].join("\n");
+
+        const res = await fetch("https://connector-gateway.lovable.dev/telegram/sendMessage", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${LOVABLE_API_KEY}`,
+            "X-Connection-Api-Key": TELEGRAM_API_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: "HTML", disable_web_page_preview: true }),
+        });
+        const body = await res.text();
+        if (!res.ok || !body.includes('"ok":true')) {
+          console.error(`[contact] Telegram send failed [${res.status}]: ${body}`);
+          return Response.json({ error: "Could not send your message. Please try again later." }, { status: 502 });
+        }
+        recent.set(fp, now);
         return Response.json({ ok: true });
       },
     },

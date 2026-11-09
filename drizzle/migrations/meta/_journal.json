@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793875516120,
+      "tag": "0000_retire_offer_storage",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793889450655,
+      "tag": "0001_add_insights_editor_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793889469996,
+      "tag": "0002_insights_editor_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793889566626,
+      "tag": "0003_guard_revoked_access",
+      "breakpoints": true
+    }
+  ]
+}
